@@ -1,0 +1,78 @@
+{
+	"kind": "Template",
+	"apiVersion": "v1",
+	"metadata": {
+		"name": "rshiny",
+		"annotations": {
+			"description": "Template for building and deploying simple one-app shiny apps using open source r and open source shiny",
+			"tags": "r-language,r,shiny,shiny server"
+		}
+	},
+	"labels": {
+		"template": "rshiny"
+	},
+	"objects": [{
+		"kind": "BuildConfig",
+		"apiVersion": "v1",
+		"metadata": {
+			"name": "rshiny",
+			"annotations": {
+				"description": "Defines how to build the application"
+			}
+		},
+		"spec": {
+			"source": {
+				"type": "Git",
+				"git": {
+					"uri": "https://github.com/BCDevExchange/simple-shiny-test",
+					"ref": "master"
+				},
+				"contextDir": ""
+			},
+			"strategy": {
+				"type": "Docker",
+				"dockerStrategy": {
+					"from": {
+						"kind": "ImageStreamTag",
+						"name": "r-base:latest"
+					},
+					"dockerfilePath": "tools/",
+					"noCache": false,
+					"forcePull": false,
+					"env": [{
+						"name": "SOME_VAR",
+						"value": "This is available during the build in the docker file itself and also to the image once built"
+					}]
+				}
+			},
+			"output": {
+				"to": {
+					"kind": "ImageStreamTag",
+					"name": "rshiny:latest"
+				}
+			},
+			"triggers": [
+				{
+					"type": "ImageChange"
+				},
+				{
+					"type": "ConfigChange"
+				},
+				{
+					"type": "GitHub",
+					"github": {
+						"secret": "${GITHUB_WEBHOOK_SECRET}"
+					}
+				},
+				{
+					"type": "Generic",
+					"generic": {
+						"secret": "${GENERIC_WEBHOOK_SECRET}"
+					}
+				}
+			],
+			"postCommit": {
+				"script": "tools/run-test.sh"
+			}
+		}
+	}]
