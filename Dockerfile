@@ -22,6 +22,6 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 
 EXPOSE 3838
 
-COPY tools/shiny-server.sh /usr/bin/shiny-server.sh
+COPY tools/run-server.sh /usr/bin/shiny-server.sh
 
 CMD ["/usr/bin/shiny-server.sh"]
