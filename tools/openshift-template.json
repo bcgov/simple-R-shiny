@@ -15,7 +15,7 @@
 		"kind": "BuildConfig",
 		"apiVersion": "v1",
 		"metadata": {
-			"name": "rshiny",
+			"name": "${NAME}",
 			"annotations": {
 				"description": "Defines how to build the application"
 			}
@@ -24,18 +24,14 @@
 			"source": {
 				"type": "Git",
 				"git": {
-					"uri": "https://github.com/BCDevExchange/simple-shiny-test",
-					"ref": "master"
+					"uri": "${SOURCE_REPOSITORY_URL}",
+					"ref": "${SOURCE_REPOSITORY_REF}"
 				},
 				"contextDir": ""
 			},
 			"strategy": {
 				"type": "Docker",
 				"dockerStrategy": {
-					"from": {
-						"kind": "ImageStreamTag",
-						"name": "r-base:latest"
-					},
 					"dockerfilePath": "tools/",
 					"noCache": false,
 					"forcePull": false,
@@ -48,7 +44,7 @@
 			"output": {
 				"to": {
 					"kind": "ImageStreamTag",
-					"name": "rshiny:latest"
+					"name": "${NAME}:latest"
 				}
 			},
 			"triggers": [
@@ -75,4 +71,180 @@
 				"script": "tools/run-test.sh"
 			}
 		}
+	},
+	{
+		"kind": "Service",
+		"apiVersion": "v1",
+		"metadata": {
+			"name": "${NAME}",
+			"annotations": {
+				"description": "Exposes and load balances the application pods"
+			}
+		},
+		"spec": {
+			"ports": [
+				{
+					"name": "web",
+					"port": 3838,
+					"targetPort": 3838
+				}
+			],
+			"selector": {
+				"name": "${NAME}"
+			}
+		}
+	},
+	{
+		"kind": "Route",
+		"apiVersion": "v1",
+		"metadata": {
+			"name": "${NAME}"
+		},
+		"spec": {
+			"host": "",
+			"to": {
+				"kind": "Service",
+				"name": "${NAME}"
+			}
+		}
+	},
+	{
+		"kind": "ImageStream",
+		"apiVersion": "v1",
+		"metadata": {
+			"name": "${NAME}",
+			"annotations": {
+				"description": "Keeps track of changes in the application image"
+			}
+		}
+	},
+	{
+		"kind": "DeploymentConfig",
+		"apiVersion": "v1",
+		"metadata": {
+			"name": "${NAME}",
+			"annotations": {
+				"description": "Defines how to deploy the application server"
+			}
+		},
+		"spec": {
+			"strategy": {
+				"type": "Rolling"
+			},
+			"triggers": [
+				{
+					"type": "ImageChange",
+					"imageChangeParams": {
+						"automatic": true,
+						"containerNames": [
+							"${NAME}"
+						],
+						"from": {
+							"kind": "ImageStreamTag",
+							"name": "${NAME}:latest"
+						}
+					}
+				},
+				{
+					"type": "ConfigChange"
+				}
+			],
+			"replicas": 1,
+			"selector": {
+				"name": "${NAME}"
+			},
+			"template": {
+				"metadata": {
+					"name": "${NAME}",
+					"labels": {
+						"name": "${NAME}"
+					}
+				},
+				"spec": {
+					"containers": [
+						{
+							"name": "${NAME}",
+							"image": " ",
+							"ports": [{
+								"containerPort": 3838
+							}],
+							"env": [{
+								"name": "SOME_VAR",
+								"value": "some value"
+							}],
+							"readinessProbe": {
+								"timeoutSeconds": 3,
+								"initialDelaySeconds": 3,
+								"httpGet": {
+									"path": "/",
+									"port": 3838
+								}
+							},
+							"livenessProbe": {
+								"timeoutSeconds": 3,
+								"initialDelaySeconds": 30,
+								"httpGet": {
+									"path": "/",
+									"port": 3838
+								}
+							},
+							"resources": {
+								"limits": {
+									"memory": "${MEMORY_LIMIT}"
+								}
+							},
+							"volumeMounts": [
+								{
+									"name": "${NAME}-docs",
+									"mountPath": "output"
+								}
+							]
+						}
+					],
+					"volumes": [
+						{
+							"name": "${NAME}-docs",
+							"persistentVolumeClaim": {
+								"claimName": "${NAME}-docs-pvc"
+							}
+						}
+					]
+				}
+			}
+		}
+	}],
+	"parameters": [{
+		"name": "NAME",
+		"displayName": "Name",
+		"description": "The name assigned to all of the frontend objects defined in this template.",
+		"required": true,
+		"value": "rshiny"
+	},{
+		"name": "SOURCE_REPOSITORY_URL",
+		"displayName": "Git Repository URL",
+		"description": "The URL of the repository with your application source code.",
+		"value": "https://github.com/BCDevExchange/simple-shiny-test"
+	},{
+		"name": "SOURCE_REPOSITORY_REF",
+		"displayName": "Git Reference",
+		"description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
+		"value": "master"
+	},{
+		"name": "GITHUB_WEBHOOK_SECRET",
+		"displayName": "GitHub Webhook Secret",
+		"description": "A secret string used to configure the GitHub webhook.",
+		"generate": "expression",
+		"from": "[a-zA-Z0-9]{40}"
+	},{
+		"name": "GENERIC_WEBHOOK_SECRET",
+		"displayName": "Generic Webhook Secret",
+		"description": "A secret string used to configure the Generic webhook.",
+		"generate": "expression",
+		"from": "[a-zA-Z0-9]{40}"
+	},{
+		"name": "MEMORY_LIMIT",
+		"displayName": "Memory Limit",
+		"description": "Maximum amount of memory the container can use.",
+		"value": "512Mi"
 	}]
+}

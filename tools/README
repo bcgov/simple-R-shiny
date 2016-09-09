@@ -1,0 +1,11 @@
+The template contains the following:
+
+Build configuration
+Service for the applicaiton so it can be scaled in pods
+Route for the application to expose it
+Deployment configuration
+Persistent Volume Claim for writing data
+
+There will need to be a mount for server logs and also for any program output
+	/var/log/shiny-server  : the server logs
+	/srv/shiny-server      : this is where the programs should live
