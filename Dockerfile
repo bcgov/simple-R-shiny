@@ -31,4 +31,4 @@ COPY tools/run-server.sh /usr/bin/shiny-server.sh
 
 RUN ["R", "-e", "\"install.packages('ggplot2')\""]
 
-RUN ["/usr/bin/shiny-server.sh"]
+CMD ["/usr/bin/shiny-server.sh"]
