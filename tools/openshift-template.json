@@ -131,6 +131,7 @@
 			"strategy": {
 				"type": "Rolling"
 			},
+			"revisionHistoryLimit": 2,
 			"triggers": [
 				{
 					"type": "ImageChange",
@@ -196,7 +197,7 @@
 							"volumeMounts": [
 								{
 									"name": "${NAME}-docs",
-									"mountPath": "output"
+									"mountPath": "shiny-output"
 								}
 							]
 						}
@@ -212,6 +213,23 @@
 				}
 			}
 		}
+	},
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-docs-pvc"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${DOCUMENT_VOLUME_CAPACITY}"
+          }
+        }
+      }
 	}],
 	"parameters": [{
 		"name": "NAME",
@@ -241,6 +259,12 @@
 		"description": "A secret string used to configure the Generic webhook.",
 		"generate": "expression",
 		"from": "[a-zA-Z0-9]{40}"
+	},{
+		"name": "DOCUMENT_VOLUME_CAPACITY",
+		"displayName": "Document Volume Capacity",
+		"description": "Volume space available for Document uploads, e.g. 512Mi, 2Gi.",
+		"value": "512Mi",
+		"required": true
 	},{
 		"name": "MEMORY_LIMIT",
 		"displayName": "Memory Limit",

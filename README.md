@@ -10,3 +10,6 @@ You need to install the `ggplot2` package for the app to work (`install.packages
 
 Instructions on how to set up Shiny Server on Ubuntu: http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
 
+
+oc new-app -f templatefile.json
+
