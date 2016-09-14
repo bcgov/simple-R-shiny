@@ -27,6 +27,8 @@ COPY data /srv/shiny-server/data
 COPY www /srv/shiny-server/www
 
 
+
+
 COPY tools/run-server.sh /usr/bin/shiny-server.sh
 
 RUN ["R", "-e", "\"install.packages('ggplot2')\""]

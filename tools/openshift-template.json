@@ -165,7 +165,7 @@
 					"containers": [
 						{
 							"name": "${NAME}",
-							"image": " ",
+							"image": "${NAME}:latest",
 							"ports": [{
 								"containerPort": 3838
 							}],
@@ -197,7 +197,7 @@
 							"volumeMounts": [
 								{
 									"name": "${NAME}-docs",
-									"mountPath": "shiny-output"
+									"mountPath": "/srv/shiny-server/output"
 								}
 							]
 						}
