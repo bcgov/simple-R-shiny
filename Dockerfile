@@ -22,9 +22,9 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 
 EXPOSE 3838
 
-#COPY app.R /srv/shiny-server/
-#COPY data /srv/shiny-server/data
-#COPY www /srv/shiny-server/www
+COPY app.R /srv/shiny-server/
+COPY data /srv/shiny-server/data
+COPY www /srv/shiny-server/www
 
 
 COPY tools/run-server.sh /usr/bin/shiny-server.sh
@@ -32,4 +32,4 @@ COPY tools/run-server.sh /usr/bin/shiny-server.sh
 RUN ["R", "-e", "\"install.packages('ggplot2')\""]
 
 #CMD ["/usr/bin/shiny-server.sh"]
-CMD ["exec", "shiny-server"]
+#CMD ["exec", "shiny-server"]
