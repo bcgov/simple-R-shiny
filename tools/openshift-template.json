@@ -36,8 +36,8 @@
 					"noCache": false,
 					"forcePull": false,
 					"env": [{
-						"name": "SOME_VAR",
-						"value": "This is available during the build in the docker file itself and also to the image once built"
+						"name": "RLIBS",
+						"value": "${R_LIBRARIES}"
 					}]
 				}
 			},
@@ -198,6 +198,10 @@
 								{
 									"name": "${NAME}-docs",
 									"mountPath": "/srv/shiny-server/output"
+								},
+								{
+									"name": "${NAME}-docs",
+									"mountPath": "/var/lib/shiny-server"
 								}
 							]
 						}
@@ -270,5 +274,10 @@
 		"displayName": "Memory Limit",
 		"description": "Maximum amount of memory the container can use.",
 		"value": "512Mi"
+	},{
+		"name": "R_LIBRARIES",
+		"displayName": "R Libraries",
+		"description": "R Libraries that need to be installed. Each encolsed in single quoates and seperated by commas, eg: 'shiny', 'datasets', 'ggplot2'"	,
+		"value": "'ggplot2'"
 	}]
 }
