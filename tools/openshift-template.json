@@ -212,6 +212,18 @@
 							"persistentVolumeClaim": {
 								"claimName": "${NAME}-docs-pvc"
 							}
+						},
+						{
+							"name": "${NAME}-logs",
+							"persistentVolumeClaim": {
+								"claimName": "${NAME}-logs-pvc"
+							}
+						},
+						{
+							"name": "${NAME}-bookmarks",
+							"persistentVolumeClaim": {
+								"claimName": "${NAME}-bookmarks-pvc"
+							}
 						}
 					]
 				}
@@ -234,7 +246,42 @@
           }
         }
       }
-	}],
+	},
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-logs-pvc"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${DOCUMENT_VOLUME_CAPACITY}"
+          }
+        }
+      }
+	},
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-bookmarks-pvc"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${DOCUMENT_VOLUME_CAPACITY}"
+          }
+        }
+      }
+	}
+	],
 	"parameters": [{
 		"name": "NAME",
 		"displayName": "Name",
