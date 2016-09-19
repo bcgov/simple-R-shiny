@@ -25,8 +25,8 @@ docker run --rm --name shiny \
 	-v `pwd`/_mount/bookmarks:/var/lib/shiny-server \
 	-v `pwd`/_mount/logs:/var/log/shiny-server \
 	-v `pwd`/_mount/output:/srv/shiny-server-output \
+	-v `pwd`/_mount/tmp:/tmp \
 	-v `pwd`/app:/srv/shiny-server \
 	myshiny
 
 
-	# -v `pwd`/_mount/tmp:/tmp \
