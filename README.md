@@ -43,3 +43,17 @@ The packages.txt file should look something like this:
 with all packages on the same line.
 
 ### 5. Run / Develop
+
+With all your packages listed in the packages.txt file, and your code in the app directory you should be able to run ./dev.sh at the command line in the root of your project
+to initiate Docker.
+```
+$ ./dev.sh
+```
+This command will build a local Dockerfile and run it for you.  All of your code will be added to the container and run.  Especially important is that new directories
+will appear in the root of your project under the '_mount' directory:
+
+- *_mount/bookmarks* : This is where shiny will write its bookmarks
+- *_mount/logs*      : Pretty much what you  might expect
+- *_mount/output*    : In your program, if you write to '/srv/shiny-server-output' it will show up here
+- *_mount/tmp*       : The /tmp directory if you need to debug the temporary files created by shiny
+
