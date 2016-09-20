@@ -45,9 +45,8 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 # example
 #
 # --------------------------------------------------------
-ENV RLIBS "'ggplot2'"
+# ENV RLIBS "'ggplot2'"
 RUN R -e "install.packages( ${RLIBS} )"
-# RUN R -e "install.packages( 'ggplot2' )"
 
 # --------------------------------------------------------
 #
