@@ -52,8 +52,11 @@ $ ./dev.sh
 This command will build a local Dockerfile and run it for you.  All of your code will be added to the container and run.  Especially important is that new directories
 will appear in the root of your project under the '_mount' directory:
 
-- *_mount/bookmarks* : This is where shiny will write its bookmarks
-- *_mount/logs*      : Pretty much what you  might expect
-- *_mount/output*    : In your program, if you write to '/srv/shiny-server-output' it will show up here
-- *_mount/tmp*       : The /tmp directory if you need to debug the temporary files created by shiny
+- **_mount/bookmarks** : This is where shiny will write its bookmarks
+- **_mount/logs**      : Pretty much what you  might expect
+- **_mount/output**    : In your program, if you write to '/srv/shiny-server-output' it will show up here
+- **_mount/tmp**       : The /tmp directory if you need to debug the temporary files created by shiny
 
+The first time you run dev.sh you will see a lot of output where docker is building the container image for the first time and installing all the dependancies.
+On each successive run as you modify your code and run dev.sh, you will see that only your new code gets placed into the image and run.  If you add new packages
+*do not forget to update the packages.txt file* or you will see the missing packages errors in your R program logs.

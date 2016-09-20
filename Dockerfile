@@ -72,6 +72,7 @@ COPY app/www /srv/shiny-server/www
 #
 # --------------------------------------------------------
 COPY tools/run-server.sh /usr/bin/shiny-server.sh
+COPY tools/run-test.sh /usr/bin/run-test.sh
 
 # --------------------------------------------------------
 #

@@ -9,7 +9,8 @@
 		}
 	},
 	"labels": {
-		"template": "rshiny"
+		"template": "rshiny",
+		"app": "${NAME}"
 	},
 	"objects": [{
 		"kind": "BuildConfig",
@@ -32,7 +33,6 @@
 			"strategy": {
 				"type": "Docker",
 				"dockerStrategy": {
-					"dockerfilePath": "tools/",
 					"noCache": false,
 					"forcePull": false,
 					"env": [{
@@ -66,10 +66,7 @@
 						"secret": "${GENERIC_WEBHOOK_SECRET}"
 					}
 				}
-			],
-			"postCommit": {
-				"script": "tools/run-test.sh"
-			}
+			]
 		}
 	},
 	{
@@ -174,19 +171,12 @@
 								"value": "some value"
 							}],
 							"readinessProbe": {
-								"timeoutSeconds": 3,
-								"initialDelaySeconds": 3,
-								"httpGet": {
-									"path": "/",
-									"port": 3838
-								}
-							},
-							"livenessProbe": {
-								"timeoutSeconds": 3,
-								"initialDelaySeconds": 30,
-								"httpGet": {
-									"path": "/",
-									"port": 3838
+								"exec": {
+									"command": [
+										"/bin/bash",
+										"-c",
+										"/usr/bin/run-test.sh"
+									]
 								}
 							},
 							"resources": {
@@ -200,7 +190,11 @@
 									"mountPath": "/srv/shiny-server/output"
 								},
 								{
-									"name": "${NAME}-docs",
+									"name": "${NAME}-logs",
+									"mountPath": "/var/log/shiny-server"
+								},
+								{
+									"name": "${NAME}-bookmarks",
 									"mountPath": "/var/lib/shiny-server"
 								}
 							]
