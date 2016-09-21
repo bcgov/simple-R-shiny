@@ -61,7 +61,7 @@ EXPOSE 3838
 # the data and www directory
 #
 # --------------------------------------------------------
-COPY app/app.R /srv/shiny-server/
+COPY app/*.R /srv/shiny-server/
 COPY app/data /srv/shiny-server/data
 COPY app/www /srv/shiny-server/www
 
@@ -78,4 +78,5 @@ COPY tools/run-test.sh /usr/bin/run-test.sh
 # run the startup script
 #
 # --------------------------------------------------------
-CMD ["/usr/bin/shiny-server.sh"]
+# CMD ["/usr/bin/shiny-server.sh"]
+CMD ["/bin/bash"]
