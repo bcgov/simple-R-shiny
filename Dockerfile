@@ -1,2 +1,2 @@
-FROM r-base:latest
+FROM ubuntu:latest
 CMD ["/bin/bash"]
