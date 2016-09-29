@@ -100,12 +100,28 @@ ADD tools/shiny-server.conf /etc/shiny-server/
 # --------------------------------------------------------
 EXPOSE 3838
 
+# --------------------------------------------------------
+#
+# copy over your application and the supporting files in
+# the data and www directory
+#
+# --------------------------------------------------------
+COPY app/*.R /srv/shiny-server/
+COPY app/data /srv/shiny-server/data
+COPY app/www /srv/shiny-server/www
+
+# -----------------------------------------
+#
+# run the server
+#
+# -----------------------------------------
+USER shiny
+CMD ["shiny-server"]
+
 # -----------------------------------------
 #
 # dumb server test
 #
 # -----------------------------------------
-USER shiny
-CMD ["shiny-server"]
 #ADD tools/server.pl /
 #CMD ["perl", "/server.pl"]
