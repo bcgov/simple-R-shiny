@@ -109,6 +109,7 @@ EXPOSE 3838
 COPY app/*.R /srv/shiny-server/
 COPY app/data /srv/shiny-server/data
 COPY app/www /srv/shiny-server/www
+RUN R -e "install.packages( ${RLIBS} )"
 
 # -----------------------------------------
 #
