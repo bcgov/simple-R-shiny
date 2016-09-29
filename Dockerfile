@@ -98,6 +98,6 @@ EXPOSE 3838
 # dumb server test
 #
 # -----------------------------------------
-#CMD ["shiny-server"]
-ADD tools/server.pl /
-CMD ["perl", "/server.pl"]
+CMD ["shiny-server"]
+#ADD tools/server.pl /
+#CMD ["perl", "/server.pl"]
