@@ -88,6 +88,13 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 
 # --------------------------------------------------------
 #
+# add custom configuration
+#
+# --------------------------------------------------------
+ADD tools/shiny-server.conf /etc/shiny-server/
+
+# --------------------------------------------------------
+#
 # expose the 3838 port
 #
 # --------------------------------------------------------

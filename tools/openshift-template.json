@@ -191,7 +191,7 @@
 								},
 								{
 									"name": "${NAME}-logs",
-									"mountPath": "/var/log/shiny-server"
+									"mountPath": "/var/shinylogs"
 								},
 								{
 									"name": "${NAME}-bookmarks",
@@ -223,6 +223,23 @@
 				}
 			}
 		}
+	},
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-logs-pvc"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${DOCUMENT_VOLUME_CAPACITY}"
+          }
+        }
+      }
 	}
 	],
 	"parameters": [{
