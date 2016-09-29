@@ -4,7 +4,7 @@
 #
 # -----------------------------------------
 FROM debian:testing
-ADD rootfs.tar.xz /
+ADD tools/rootfs.tar.xz /
 
 # -----------------------------------------
 #
