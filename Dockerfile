@@ -105,6 +105,7 @@ EXPOSE 3838
 # dumb server test
 #
 # -----------------------------------------
+USER shiny
 CMD ["shiny-server"]
 #ADD tools/server.pl /
 #CMD ["perl", "/server.pl"]
