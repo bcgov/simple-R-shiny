@@ -8,20 +8,24 @@
 			"tags": "r-language,r,shiny,shiny server"
 		}
 	},
-	"labels": {
-		"template": "rshiny",
-		"app": "${NAME}"
-	},
-	"objects": [{
+	"objects": [
+	{
 		"kind": "BuildConfig",
 		"apiVersion": "v1",
 		"metadata": {
 			"name": "${NAME}",
+			"creationTimestamp": null,
+			"labels": {
+				"template": "rshiny"
+			},
 			"annotations": {
 				"description": "Defines how to build the application"
 			}
 		},
 		"spec": {
+			"runPolicy": "Serial",
+			"resources": {},
+			"postCommit": {},
 			"source": {
 				"type": "Git",
 				"git": {
@@ -83,7 +87,8 @@
 				{
 					"name": "web",
 					"port": 3838,
-					"targetPort": 3838
+					"targetPort": 3838,
+					"protocol": "TCP"
 				}
 			],
 			"selector": {
@@ -112,6 +117,9 @@
 			"name": "${NAME}",
 			"annotations": {
 				"description": "Keeps track of changes in the application image"
+			},
+			"labels": {
+				"template": "rshiny"
 			}
 		}
 	},
@@ -164,21 +172,13 @@
 							"name": "${NAME}",
 							"image": "${NAME}:latest",
 							"ports": [{
-								"containerPort": 3838
+								"containerPort": 3838,
+								"protocol": "TCP"
 							}],
 							"env": [{
 								"name": "SOME_VAR",
 								"value": "some value"
 							}],
-							"readinessProbe": {
-								"exec": {
-									"command": [
-										"/bin/bash",
-										"-c",
-										"/usr/bin/run-test.sh"
-									]
-								}
-							},
 							"resources": {
 								"limits": {
 									"memory": "${MEMORY_LIMIT}"
@@ -223,57 +223,6 @@
 				}
 			}
 		}
-	},
-    {
-      "kind": "PersistentVolumeClaim",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-docs-pvc"
-      },
-      "spec": {
-        "accessModes": [
-          "ReadWriteOnce"
-        ],
-        "resources": {
-          "requests": {
-            "storage": "${DOCUMENT_VOLUME_CAPACITY}"
-          }
-        }
-      }
-	},
-    {
-      "kind": "PersistentVolumeClaim",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-logs-pvc"
-      },
-      "spec": {
-        "accessModes": [
-          "ReadWriteOnce"
-        ],
-        "resources": {
-          "requests": {
-            "storage": "${DOCUMENT_VOLUME_CAPACITY}"
-          }
-        }
-      }
-	},
-    {
-      "kind": "PersistentVolumeClaim",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-bookmarks-pvc"
-      },
-      "spec": {
-        "accessModes": [
-          "ReadWriteOnce"
-        ],
-        "resources": {
-          "requests": {
-            "storage": "${DOCUMENT_VOLUME_CAPACITY}"
-          }
-        }
-      }
 	}
 	],
 	"parameters": [{
