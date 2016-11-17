@@ -95,6 +95,17 @@ ADD tools/shiny-server.conf /etc/shiny-server/
 
 # --------------------------------------------------------
 #
+# Make and set permissions for log & bookmarks directories
+#
+# --------------------------------------------------------
+
+RUN sudo mkdir -p /var/shinylogs/shiny-server && \
+    mkdir -p /var/lib/shiny-server && \
+    chown shiny:shiny /var/shinylogs/shiny-server/ && \
+    chown shiny:shiny /var/lib/shiny-server/
+
+# --------------------------------------------------------
+#
 # expose the 3838 port
 #
 # --------------------------------------------------------
