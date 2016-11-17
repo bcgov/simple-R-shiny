@@ -57,6 +57,8 @@ will appear in the root of your project under the '_mount' directory:
 - **_mount/output**    : In your program, if you write to '/srv/shiny-server-output' it will show up here
 - **_mount/tmp**       : The /tmp directory if you need to debug the temporary files created by shiny
 
+Note: If you are on Windows and using Docker with VirtualBox, use the `dev-win.sh` instead of `dev.sh` - It unfortunately won't be able to mount the logs and bookmarks folders locally, but it will build and lanch the app.
+
 The first time you run dev.sh you will see a lot of output where docker is building the container image for the first time and installing all the dependancies.
 On each successive run as you modify your code and run dev.sh, you will see that only your new code gets placed into the image and run.  If you add new packages
 *do not forget to update the packages.txt file* or you will see the missing packages errors in your R program logs.
