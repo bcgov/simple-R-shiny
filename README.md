@@ -42,6 +42,8 @@ The packages.txt file should look something like this:
 ```
 with all packages on the same line.
 
+Do not include 'shiny' or 'rmarkdown' in packages.txt as they are installed automatically.
+
 ### 5. Run / Develop
 
 With all your packages listed in the packages.txt file, and your code in the app directory you should be able to run ./dev.sh at the command line in the root of your project
