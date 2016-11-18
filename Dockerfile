@@ -38,7 +38,7 @@ ENV LANG en_US.UTF-8
 RUN echo "deb http://http.debian.net/debian sid main" > /etc/apt/sources.list.d/debian-unstable.list \
     && echo 'APT::Default-Release "testing";' > /etc/apt/apt.conf.d/default
 
-ENV R_BASE_VERSION 3.3.1
+ENV R_BASE_VERSION 3.3.2
 
 ## Now install R and littler, and create a link for littler in /usr/local/bin
 ## Also set a default CRAN repo, and make sure littler knows about it too
@@ -95,6 +95,17 @@ ADD tools/shiny-server.conf /etc/shiny-server/
 
 # --------------------------------------------------------
 #
+# Make and set permissions for log & bookmarks directories
+#
+# --------------------------------------------------------
+
+RUN sudo mkdir -p /var/shinylogs/shiny-server && \
+    mkdir -p /var/lib/shiny-server && \
+    chown shiny:shiny /var/shinylogs/shiny-server/ && \
+    chown shiny:shiny /var/lib/shiny-server/
+
+# --------------------------------------------------------
+#
 # expose the 3838 port
 #
 # --------------------------------------------------------
@@ -109,7 +120,7 @@ EXPOSE 3838
 COPY app/*.R /srv/shiny-server/
 COPY app/data /srv/shiny-server/data
 COPY app/www /srv/shiny-server/www
-RUN R -e "install.packages( ${RLIBS} )"
+RUN R -e "install.packages(c( ${RLIBS} ))"
 
 # -----------------------------------------
 #
