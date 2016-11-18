@@ -13,7 +13,12 @@
 # --------------------------------------------------------
 if [[ $(diff packages.txt .packages.txt) ]] || [[ ! -f Dockerfile.local ]]
 then
-	sed -e "s/\${RLIBS}/$(head -n 1 packages.txt)/"  Dockerfile > Dockerfile.local
+  if [[ $(wc -w < packages.txt) -gt 0 ]]
+  then
+  	sed -e "s/\${RLIBS}/RUN R -e \"install.packages(c( $(head -n 1 packages.txt) ))\"/"  Dockerfile > Dockerfile.local
+  else
+    sed -e "s/\${RLIBS}//"  Dockerfile > Dockerfile.local
+  fi
 fi
 cp packages.txt .packages.txt
 
