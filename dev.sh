@@ -13,7 +13,7 @@
 # --------------------------------------------------------
 if [[ $(diff packages.txt .packages.txt) ]] || [[ ! -f Dockerfile.local ]]
 then
-  if [[ $(wc -w < packages.txt) -gt 0 ]]
+  if [[ $(head -n 1 packages.txt | wc -w) -gt 0 ]]
   then
   	sed -e "s/\${RLIBS}/RUN R -e \"install.packages(c( $(head -n 1 packages.txt) ))\"/"  Dockerfile > Dockerfile.local
   else
