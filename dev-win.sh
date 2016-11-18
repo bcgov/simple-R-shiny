@@ -11,23 +11,14 @@
 # create the local dockerfile
 #
 # --------------------------------------------------------
-if [[ $(diff packages.txt .packages.txt) ]] || [[ ! -f Dockerfile.local ]]
-then
-  if [[ $(head -n 1 packages.txt | wc -w) -gt 0 ]]
-  then
-  	sed -e "s/\${RLIBS}/RUN R -e \"install.packages(c( $(head -n 1 packages.txt) ))\"/"  Dockerfile > Dockerfile.local
-  else
-    sed -e "s/\${RLIBS}//"  Dockerfile > Dockerfile.local
-  fi
-fi
-cp packages.txt .packages.txt
+sh make-docker-local.sh
 
 # --------------------------------------------------------
 #
 # Build
 #
 # --------------------------------------------------------
-# docker build -t myshiny -f Dockerfile.local .
+docker build -t myshiny -f Dockerfile.local .
 
 # --------------------------------------------------------
 #
@@ -35,4 +26,4 @@ cp packages.txt .packages.txt
 # bookmarks locally
 #
 # --------------------------------------------------------
-# docker run -i -t --rm --name shiny -p 3838:3838 myshiny
+docker run -i -t --rm --name shiny -p 3838:3838 myshiny

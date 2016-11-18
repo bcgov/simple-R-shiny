@@ -39,10 +39,16 @@
 				"dockerStrategy": {
 					"noCache": false,
 					"forcePull": false,
-					"env": [{
-						"name": "RLIBS",
-						"value": "${R_LIBRARIES}"
-					}]
+					"env": [
+					  {
+					    "name": "RLIBS",
+						  "value": "${R_LIBRARIES}"
+					  },
+					  {
+					    "name": "SYSLIBS",
+						  "value": "${SYS_LIBRARIES}"
+					  }
+					]
 				}
 			},
 			"output": {
@@ -318,7 +324,13 @@
 	},{
 		"name": "R_LIBRARIES",
 		"displayName": "R Libraries",
-		"description": "R Libraries that need to be installed. Each encolsed in single quoates and seperated by commas, eg: 'shiny', 'datasets', 'ggplot2'"	,
+		"description": "R Libraries that need to be installed. Each enclosed in single quotes and seperated by commas, eg: 'shiny', 'datasets', 'ggplot2'"	,
 		"value": "'ggplot2'"
-	}]
+	},{
+		"name": "SYS_LIBRARIES",
+		"displayName": "System Libraries",
+		"description": "System libraries that need to be installed as dependencies for R Packages. Separated by a space.",
+		"value": "libxml2-dev"
+	}
+]
 }
