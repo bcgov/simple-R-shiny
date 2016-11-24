@@ -61,7 +61,7 @@ RUN apt-get update \
 
 # --------------------------------------------------------
 #
-# Install all the pre-reqs
+# Install all the pre-reqs (and optional supplied in system-libraries.txt)
 #
 # --------------------------------------------------------
 RUN apt-get update && apt-get install -y -t unstable \
@@ -71,7 +71,7 @@ RUN apt-get update && apt-get install -y -t unstable \
     pandoc-citeproc \
     libcurl4-gnutls-dev \
     libcairo2-dev/unstable \
-    libxt-dev
+    libxt-dev ${SYSLIBS}
 
 # --------------------------------------------------------
 #
@@ -100,9 +100,9 @@ ADD tools/shiny-server.conf /etc/shiny-server/
 # --------------------------------------------------------
 
 RUN sudo mkdir -p /var/shinylogs/shiny-server && \
-    mkdir -p /var/lib/shiny-server && \
+    mkdir -p /var/lib/shiny-server/bookmarks && \
     chown shiny:shiny /var/shinylogs/shiny-server/ && \
-    chown shiny:shiny /var/lib/shiny-server/
+    chown shiny:shiny /var/lib/shiny-server/bookmarks/
 
 # --------------------------------------------------------
 #
@@ -123,11 +123,9 @@ COPY app/www /srv/shiny-server/www
 
 # --------------------------------------------------------
 #
-# Install system libraries and R packages if required
+# Install R packages if required
 #
 # --------------------------------------------------------
-${SYSLIBS}
-
 ${RLIBS}
 
 # --------------------------------------------------------

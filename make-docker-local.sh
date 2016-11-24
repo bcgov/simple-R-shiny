@@ -17,7 +17,7 @@ then
 
   if [[ $(head -n 1 system-libraries.txt | wc -w) -gt 0 ]]
   then
-    syslib_str="RUN apt-get update \&\& apt-get install -y -t unstable $(head -n 1 system-libraries.txt)"
+    syslib_str="$(head -n 1 system-libraries.txt)"
   else
     syslib_str=""
   fi
