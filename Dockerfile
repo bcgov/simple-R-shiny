@@ -24,6 +24,7 @@ RUN apt-get update \
         vim-tiny \
         wget \
         ca-certificates \
+        procps \
     && rm -rf /var/lib/apt/lists/*
 
 ## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
@@ -122,18 +123,22 @@ COPY app/data /srv/shiny-server/data
 COPY app/www /srv/shiny-server/www
 RUN R -e "install.packages(c( ${RLIBS} ))"
 
+# --------------------------------------------------------
+#
+# copy over the startup script
+#
+# --------------------------------------------------------
+COPY tools/run-server.sh /usr/bin/shiny-server.sh
+COPY tools/run-test.sh /usr/bin/run-test.sh
+RUN chmod a+x /usr/bin/shiny-server.sh
+RUN chmod a+x /usr/bin/run-test.sh
+
 # -----------------------------------------
 #
 # run the server
 #
 # -----------------------------------------
-USER shiny
-CMD ["shiny-server"]
+#USER shiny
+#CMD ["shiny-server"]
+CMD ["/usr/bin/shiny-server.sh"]
 
-# -----------------------------------------
-#
-# dumb server test
-#
-# -----------------------------------------
-#ADD tools/server.pl /
-#CMD ["perl", "/server.pl"]
