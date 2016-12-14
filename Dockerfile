@@ -72,7 +72,9 @@ RUN apt-get update && apt-get install -y -t unstable \
     pandoc-citeproc \
     libcurl4-gnutls-dev \
     libcairo2-dev/unstable \
-    libxt-dev
+    libxt-dev \
+    nss_wrapper \
+    gettext
 
 # --------------------------------------------------------
 #
@@ -128,6 +130,7 @@ RUN R -e "install.packages(c( ${RLIBS} ))"
 # copy over the startup script
 #
 # --------------------------------------------------------
+COPY tools/passwd.template /passwd.template
 COPY tools/run-server.sh /usr/bin/shiny-server.sh
 COPY tools/run-test.sh /usr/bin/run-test.sh
 RUN chmod a+x /usr/bin/shiny-server.sh
