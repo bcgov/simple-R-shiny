@@ -73,7 +73,7 @@ RUN apt-get update && apt-get install -y -t unstable \
     libcurl4-gnutls-dev \
     libcairo2-dev/unstable \
     libxt-dev \
-    nss-wrapper \
+    libnss-wrapper \
     gettext
 
 # --------------------------------------------------------
