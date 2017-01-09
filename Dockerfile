@@ -24,6 +24,7 @@ RUN apt-get update \
         vim-tiny \
         wget \
         ca-certificates \
+        procps \
     && rm -rf /var/lib/apt/lists/*
 
 ## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
@@ -71,7 +72,9 @@ RUN apt-get update && apt-get install -y -t unstable \
     pandoc-citeproc \
     libcurl4-gnutls-dev \
     libcairo2-dev/unstable \
-    libxt-dev ${SYSLIBS}
+    libxt-dev \
+    libnss-wrapper \
+    gettext ${SYSLIBS}
 
 # --------------------------------------------------------
 #
@@ -120,7 +123,6 @@ EXPOSE 3838
 COPY app/*.R /srv/shiny-server/
 COPY app/data /srv/shiny-server/data
 COPY app/www /srv/shiny-server/www
-
 # --------------------------------------------------------
 #
 # Install R packages if required
@@ -130,16 +132,19 @@ ${RLIBS}
 
 # --------------------------------------------------------
 #
+# copy over the startup script
+#
+# --------------------------------------------------------
+COPY tools/passwd.template /passwd.template
+COPY tools/run-server.sh /usr/bin/shiny-server.sh
+COPY tools/run-test.sh /usr/bin/run-test.sh
+RUN chmod a+x /usr/bin/shiny-server.sh
+RUN chmod a+x /usr/bin/run-test.sh
+# --------------------------------------------------------
+#
 # run the server
 #
-# --------------------------------------------------------
-USER shiny
-CMD ["shiny-server"]
-
-# --------------------------------------------------------
-#
-# dumb server test
-#
-# --------------------------------------------------------
-#ADD tools/server.pl /
-#CMD ["perl", "/server.pl"]
+# -----------------------------------------
+#USER shiny
+#CMD ["shiny-server"]
+CMD ["/usr/bin/shiny-server.sh"]
