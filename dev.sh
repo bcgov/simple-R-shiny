@@ -11,11 +11,7 @@
 # create the local dockerfile
 #
 # --------------------------------------------------------
-if [[ $(diff packages.txt .packages.txt) ]] || [[ ! -f Dockerfile.local ]]
-then
-	sed -e "s/\${RLIBS}/$(head -n 1 packages.txt)/"  Dockerfile > Dockerfile.local
-fi
-cp packages.txt .packages.txt
+sh make-docker-local.sh
 
 # --------------------------------------------------------
 #
