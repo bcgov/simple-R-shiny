@@ -26,9 +26,7 @@ Instructions for forking into your own github repo are [provided here](https://h
 
 ### 3. Clone to your machine
 
-You now need to clone the new repo onto your local machine so that you can start entering your code and developing.  There are many graphical tools available that can help manage this,
-some of which can be found [here](https://git-scm.com/download/gui/linux "Github GUI").  Or you can simply use the command line, instructions for which can be
-found [here](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository "git command line").
+You now need to clone the new repo onto your local machine so that you can start entering your code and developing.  There are many graphical tools available that can help manage this, some of which can be found [here](https://git-scm.com/download/gui/linux "Github GUI").  Or you can simply use the command line, instructions for which can be found [here](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository "git command line").
 
 ### 4. Edit the packages.txt file
 
@@ -44,21 +42,30 @@ with all packages on the same line.
 
 Do not include 'shiny' or 'rmarkdown' in packages.txt as they are installed automatically.
 
-### 5. Run / Develop
+### 5. Edit the system-libraries.txt file
 
-With all your packages listed in the packages.txt file, and your code in the app directory you should be able to run `./dev.sh` at the command line in the root of your project to initiate Docker.
+If any of the R packages you need to install require special system libraries (to be installed with `apt-get install`; eg. `libgdal-dev` and `libproj-dev` for the [`rgdal`](https://cran.rstudio.com/web/packages/rgdal/) package, or `libxml2-dev` for the [`xml2`](https://cran.rstudio.com/web/packages/xml2/) package), list them in this file. It works similarly to packages.txt to build an explicit local Dockerfile that ensures fast repeated builds.
+
+The system-libraries.txt should look something like this (libraries separated by a space, no quotation marks):
+```
+lib1 lib2
+```
+
+### 6. Run / Develop
+
+With all your packages listed in the packages.txt file, and your code in the app directory you should be able to run `./dev.sh` at the command line (on Windows use the *Docker Quickstart Terminal*) in the root of your project to initiate Docker.
 ```
 $ ./dev.sh
 ```
-This command will build a local Dockerfile and run it for you.  All of your code will be added to the container and run.  Especially important is that new directories
-will appear in the root of your project under the '_mount' directory:
+This command will build a local Dockerfile and run it for you.  All of your code will be added to the container and run.  Especially important is that new directories will appear in the root of your project under the '_mount' directory:
 
 - **_mount/bookmarks** : This is where shiny will write its bookmarks
 - **_mount/logs**      : Pretty much what you  might expect
 - **_mount/output**    : In your program, if you write to '/srv/shiny-server-output' it will show up here
 - **_mount/tmp**       : The /tmp directory if you need to debug the temporary files created by shiny
 
-Note: If you are on Windows and using Docker with VirtualBox, use the `dev-win.sh` file instead of `dev.sh` - It unfortunately won't be able to mount the logs and bookmarks folders locally, but it will build and lanch the app.
+Note: If you are on Windows and using Docker with VirtualBox, it unfortunately 
+won't be able to mount the logs and bookmarks folders locally, but it will build and lanch the app.
 
 The first time you run dev.sh you will see a lot of output where docker is building the container image for the first time and installing all the dependancies.
 On each successive run as you modify your code and run dev.sh, you will see that only your new code gets placed into the image and run.  If you add new packages
