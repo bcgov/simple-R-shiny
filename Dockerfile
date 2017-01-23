@@ -62,9 +62,10 @@ RUN apt-get update \
 
 # --------------------------------------------------------
 #
-# Install all the pre-reqs
+# Install all the pre-reqs (and optional supplied in system-libraries.txt)
 #
 # --------------------------------------------------------
+ENV SYS_LIBS "${SYSLIBS}"
 RUN apt-get update && apt-get install -y -t unstable \
     sudo \
     gdebi-core \
@@ -74,7 +75,7 @@ RUN apt-get update && apt-get install -y -t unstable \
     libcairo2-dev/unstable \
     libxt-dev \
     libnss-wrapper \
-    gettext
+    gettext $SYS_LIBS
 
 # --------------------------------------------------------
 #
@@ -103,9 +104,9 @@ ADD tools/shiny-server.conf /etc/shiny-server/
 # --------------------------------------------------------
 
 RUN sudo mkdir -p /var/shinylogs/shiny-server && \
-    mkdir -p /var/lib/shiny-server && \
+    mkdir -p /var/lib/shiny-server/bookmarks && \
     chown shiny:shiny /var/shinylogs/shiny-server/ && \
-    chown shiny:shiny /var/lib/shiny-server/
+    chown shiny:shiny /var/lib/shiny-server/bookmarks/
 
 # --------------------------------------------------------
 #
@@ -123,7 +124,13 @@ EXPOSE 3838
 COPY app/*.R /srv/shiny-server/
 COPY app/data /srv/shiny-server/data
 COPY app/www /srv/shiny-server/www
-RUN R -e "install.packages(c( ${RLIBS} ))"
+# --------------------------------------------------------
+#
+# Install R packages if required
+#
+# --------------------------------------------------------
+ENV R_LIBS "${RLIBS}"
+RUN if [ "$R_LIBS" ]; then R -e "install.packages(c($R_LIBS))"; fi
 
 # --------------------------------------------------------
 #
@@ -135,8 +142,7 @@ COPY tools/run-server.sh /usr/bin/shiny-server.sh
 COPY tools/run-test.sh /usr/bin/run-test.sh
 RUN chmod a+x /usr/bin/shiny-server.sh
 RUN chmod a+x /usr/bin/run-test.sh
-
-# -----------------------------------------
+# --------------------------------------------------------
 #
 # run the server
 #
@@ -144,4 +150,3 @@ RUN chmod a+x /usr/bin/run-test.sh
 #USER shiny
 #CMD ["shiny-server"]
 CMD ["/usr/bin/shiny-server.sh"]
-
