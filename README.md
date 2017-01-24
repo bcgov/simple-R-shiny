@@ -8,8 +8,7 @@ to run locally in development using Docker, and can be productionized using your
 ### Where do I put my code?
 
 All of your code goes into the app directory. Data goes into the app/data directory and web resources such as css and images go into app/www directory.
-If you have a README for your project, please also put it here.  Your Shiny code can go into one file as per the example, or you can split it into
-seperate ui and server files as you wish.
+If you have a README for your project, please also put it here.  Your Shiny code can go into one file (`app.R`) as per the example, or you can split it intoseperate `ui.R` and `server.R` files as you wish.
 
 ## Getting Started
 
