@@ -39,7 +39,7 @@ cp system-libraries.txt .system-libraries.txt
 # Build
 #
 # --------------------------------------------------------
-docker build --no-cache -t shinylands -f Dockerfile.local .
+docker build -t shinylands -f Dockerfile.local .
 
 # --------------------------------------------------------
 #
