@@ -95,7 +95,7 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 # add custom configuration
 #
 # --------------------------------------------------------
-ADD tools/shiny-server.conf /etc/shiny-server/
+COPY tools/shiny-server.conf /etc/shiny-server/
 
 # --------------------------------------------------------
 #
@@ -117,15 +117,6 @@ EXPOSE 3838
 
 # --------------------------------------------------------
 #
-# copy over your application and the supporting files in
-# the data and www directory
-#
-# --------------------------------------------------------
-COPY app/*.R /srv/shiny-server/
-COPY app/data /srv/shiny-server/data
-COPY app/www /srv/shiny-server/www
-# --------------------------------------------------------
-#
 # Install R packages if required
 #
 # --------------------------------------------------------
@@ -142,6 +133,20 @@ COPY tools/run-server.sh /usr/bin/shiny-server.sh
 COPY tools/run-test.sh /usr/bin/run-test.sh
 RUN chmod a+x /usr/bin/shiny-server.sh
 RUN chmod a+x /usr/bin/run-test.sh
+
+# --------------------------------------------------------
+#
+# copy over your application and the supporting files in
+# the data and www directory. This is done last because it
+# is most likely to change frequently. This allows greater
+# use of Docker caching as everying downstream of a change
+# will invalidate the cache for those steps.
+#
+# --------------------------------------------------------
+COPY app/*.R /srv/shiny-server/
+COPY app/data /srv/shiny-server/data
+COPY app/www /srv/shiny-server/www
+
 # --------------------------------------------------------
 #
 # run the server
