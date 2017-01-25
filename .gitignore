@@ -3,3 +3,4 @@ _mount
 Dockerfile.local
 .system-libraries.txt
 .Rproj.user
+.Rhistory
