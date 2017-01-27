@@ -71,7 +71,7 @@ RUN apt-get update && apt-get install -y -t unstable \
     gdebi-core \
     pandoc \
     pandoc-citeproc \
-    libcurl4-gnutls-dev \
+    libcurl4-openssl-dev \
     libcairo2-dev/unstable \
     libxt-dev \
     libnss-wrapper \
