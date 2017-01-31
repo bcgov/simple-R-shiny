@@ -72,7 +72,7 @@ cp system-libraries.txt .system-libraries.txt
 # Build
 #
 # --------------------------------------------------------
-# docker build $no_cache -t shinylands -f Dockerfile.local .
+docker build $no_cache -t shinylands -f Dockerfile.local .
 
 # --------------------------------------------------------
 #
@@ -90,7 +90,7 @@ then
   # bookmarks locally
   #
   # --------------------------------------------------------
-  # docker run -i -t --rm --name shiny -p 3838:3838 shinylands
+  docker run -i -t --rm --name shiny -p 3838:3838 shinylands
 
 else
   # --------------------------------------------------------
