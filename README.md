@@ -46,11 +46,24 @@ Do not include 'shiny' or 'rmarkdown' in packages.txt as they are installed auto
 If any of the R packages you need to install require special system libraries (to be installed with `apt-get install`; eg. `libgdal-dev` and `libproj-dev` for the [`rgdal`](https://cran.rstudio.com/web/packages/rgdal/) package, or `libxml2-dev` for the [`xml2`](https://cran.rstudio.com/web/packages/xml2/) package), list them in this file. It works similarly to packages.txt to build an explicit local Dockerfile that ensures fast repeated builds.
 
 The system-libraries.txt should look something like this (libraries separated by a space, no quotation marks):
+
 ```
 lib1 lib2
 ```
 
-### 6. Run / Develop
+### 6. GitHub-hosted Packages
+
+Many times you will build a Shiny App that requires R Packages (or versions) that are only available from 
+GitHub. These are installed using `devtools::install_github`. List them in the `gh-packages.txt` file, 
+as single-quoted comma separated strings made up of the GitHub user/organization and repository name. 
+It's also recommended to specify a the `SHA` of a specific commit or release tag. 
+The file should look something like this:
+
+```
+'ropensci/plotly@a1613b3e225', 'tidyverse/ggplot2@v2.2.1'
+```
+
+### 7. Run / Develop
 
 With all your packages listed in the packages.txt file, and your code in the app directory you should be able to run `./dev.sh` at the command line (on Windows use the *Docker Quickstart Terminal*) in the root of your project to initiate Docker.
 ```
