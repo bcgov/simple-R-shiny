@@ -1,5 +1,6 @@
 library(shiny)
 library(ggplot2)
+library(plotly)
 options(shiny.sanitize.errors = FALSE)
 data <- read.csv(file.path("data", "iris.csv"))
 
@@ -20,7 +21,7 @@ ui <- fluidPage(
       actionButton("write", "Write data to shiny server disk (csv)")
     ),
     mainPanel(
-      plotOutput("plot"),
+      plotlyOutput("plot"),
       tableOutput("table")
     )
   )
@@ -31,9 +32,11 @@ server <- function(input, output, session) {
     data
   )
 
-  output$plot <- renderPlot({
-    ggplot(data, aes(Sepal.Length, Sepal.Width)) +
+  output$plot <- renderPlotly({
+    p <- ggplot(data, aes(Sepal.Length, Sepal.Width)) +
       geom_point(size = input$size)
+
+    ggplotly(p)
   })
 
   output$download <- downloadHandler(
