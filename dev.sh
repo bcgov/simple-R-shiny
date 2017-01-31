@@ -47,7 +47,7 @@ then
 
   if [[ $(head -n 1 gh-packages.txt | wc -w) -gt 0 ]]
   then
-  ## / and @ need to be escaped:
+  ## '@', '.', and '/' need to be escaped:
     r_gh_lib_str=$(sed 's/[\@\./]/\\&/g' <<<"$(head -n 1 gh-packages.txt)")
   else
     r_gh_lib_str=""
