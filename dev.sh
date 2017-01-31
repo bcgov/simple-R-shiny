@@ -35,7 +35,7 @@ fi
 # create the local dockerfile
 #
 # --------------------------------------------------------
-if [[ $(diff packages.txt .packages.txt) ]] || [[ $(diff system-libraries.txt .system-libraries.txt) ]] || [[ ! -f Dockerfile.local ]]
+if [[ $(diff packages.txt .packages.txt) ]] || [[ $(diff gh-packages.txt .gh-packages.txt) ]] || [[ $(diff system-libraries.txt .system-libraries.txt) ]] || [[ ! -f Dockerfile.local ]]
 then
 
   if [[ $(head -n 1 packages.txt | wc -w) -gt 0 ]]
@@ -45,6 +45,14 @@ then
     rlib_str=""
   fi
 
+  if [[ $(head -n 1 gh-packages.txt | wc -w) -gt 0 ]]
+  then
+  ## / and @ need to be escaped:
+    r_gh_lib_str=$(sed 's/[\@/]/\\&/g' <<<"$(head -n 1 gh-packages.txt)")
+  else
+    r_gh_lib_str=""
+  fi
+
   if [[ $(head -n 1 system-libraries.txt | wc -w) -gt 0 ]]
   then
     syslib_str="$(head -n 1 system-libraries.txt)"
@@ -52,10 +60,11 @@ then
     syslib_str=""
   fi
 
-  sed -e "s/\${RLIBS}/$rlib_str/; s/\${SYSLIBS}/$syslib_str/"  Dockerfile > Dockerfile.local
+  sed -e "s/\${RLIBS}/$rlib_str/; s/\${RGHLIBS}/$r_gh_lib_str/; s/\${SYSLIBS}/$syslib_str/"  Dockerfile > Dockerfile.local
 
 fi
 cp packages.txt .packages.txt
+cp gh-packages.txt .gh-packages.txt
 cp system-libraries.txt .system-libraries.txt
 
 # --------------------------------------------------------
@@ -74,7 +83,7 @@ docker build $no_cache -t shinylands -f Dockerfile.local .
 os=$OSTYPE
 if [[ "$os" == 'msys' ]] || [[ "$os" == 'cygwin' ]] || [[ "$os" == 'win32' ]]
 then
- echo "Running on Windows"
+  echo "Running on Windows"
   # --------------------------------------------------------
   #
   # Run the image - unfortunately won't mount the logs and
