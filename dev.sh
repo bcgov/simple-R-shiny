@@ -48,7 +48,7 @@ then
   if [[ $(head -n 1 gh-packages.txt | wc -w) -gt 0 ]]
   then
   ## / and @ need to be escaped:
-    r_gh_lib_str=$(sed 's/[\@/]/\\&/g' <<<"$(head -n 1 gh-packages.txt)")
+    r_gh_lib_str=$(sed 's/[\@\./]/\\&/g' <<<"$(head -n 1 gh-packages.txt)")
   else
     r_gh_lib_str=""
   fi
@@ -72,7 +72,7 @@ cp system-libraries.txt .system-libraries.txt
 # Build
 #
 # --------------------------------------------------------
-docker build $no_cache -t shinylands -f Dockerfile.local .
+# docker build $no_cache -t shinylands -f Dockerfile.local .
 
 # --------------------------------------------------------
 #
@@ -90,7 +90,7 @@ then
   # bookmarks locally
   #
   # --------------------------------------------------------
-  docker run -i -t --rm --name shiny -p 3838:3838 shinylands
+  # docker run -i -t --rm --name shiny -p 3838:3838 shinylands
 
 else
   # --------------------------------------------------------
