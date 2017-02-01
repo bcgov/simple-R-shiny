@@ -99,6 +99,9 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 ENV R_LIBS "${RLIBS}"
 RUN if [ "$R_LIBS" ]; then R -e "install.packages(c($R_LIBS))"; fi
 
+# --------------------------------------------------------
+# GitHub R packages
+# --------------------------------------------------------
 ENV R_GH_LIBS "${RGHLIBS}"
 RUN if [ "$R_GH_LIBS" ]; \
     then \
