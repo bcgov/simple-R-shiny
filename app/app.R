@@ -49,7 +49,7 @@ server <- function(input, output, session) {
   )
 
   observeEvent(input$write, {
-    write.csv(data, "output.csv", row.names = FALSE)
+    write.csv(data, "output/output.csv", row.names = FALSE)
   })
 }
 

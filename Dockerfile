@@ -154,6 +154,8 @@ RUN chmod a+x /usr/bin/run-test.sh
 COPY app/*.R /srv/shiny-server/
 COPY app/data /srv/shiny-server/data
 COPY app/www /srv/shiny-server/www
+RUN mkdir /srv/shiny-server/output/ && \
+    chown shiny:shiny /srv/shiny-server/output/
 
 # --------------------------------------------------------
 #
