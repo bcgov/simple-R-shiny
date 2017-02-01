@@ -39,10 +39,20 @@
 				"dockerStrategy": {
 					"noCache": false,
 					"forcePull": false,
-					"env": [{
-						"name": "RLIBS",
-						"value": "${R_LIBRARIES}"
-					}]
+					"env": [
+					  {
+					    "name": "RLIBS",
+						  "value": "${R_PACKAGES}"
+					  },
+					  {
+					    "name": "SYSLIBS",
+						  "value": "${SYS_LIBRARIES}"
+					  }, 
+					  {
+					  	"name":"RGHLIBS",
+					  	  "value": "${R_GH_PACKAGES}"
+					  }
+					]
 				}
 			},
 			"output": {
@@ -286,7 +296,7 @@
 		"name": "SOURCE_REPOSITORY_URL",
 		"displayName": "Git Repository URL",
 		"description": "The URL of the repository with your application source code.",
-		"value": "https://github.com/BCDevExchange/simple-shiny-test"
+		"value": "https://github.com/bcgov/simple-R-shiny"
 	},{
 		"name": "SOURCE_REPOSITORY_REF",
 		"displayName": "Git Reference",
@@ -316,9 +326,20 @@
 		"description": "Maximum amount of memory the container can use.",
 		"value": "512Mi"
 	},{
-		"name": "R_LIBRARIES",
-		"displayName": "R Libraries",
-		"description": "R Libraries that need to be installed. Each encolsed in single quoates and seperated by commas, eg: 'shiny', 'datasets', 'ggplot2'"	,
+		"name": "R_PACKAGES",
+		"displayName": "R Packages",
+		"description": "R Packages that need to be installed from CRAN. Each enclosed in single quotes and seperated by commas, eg: 'datasets', 'ggplot2'"	,
 		"value": "'ggplot2'"
-	}]
+	},{
+		"name": "SYS_LIBRARIES",
+		"displayName": "System Libraries",
+		"description": "System libraries that need to be installed as dependencies for R Packages. Separated by a space, eg: libproj-dev libgdal-dev libgeos-dev",
+		"value": ""
+	},{
+		"name": "R_GH_PACKAGES",
+		"displayName": "R GitHub Packages",
+		"description": "R Packages to be installed from GitHub. Single-quoted strings separated by commas: 'gh_user/repo@commit_SHA', 'gh_org/repo@release_tag', the SHA/release tag is optional but recommended. eg: 'ropensci/plotly@a1613b3e225', 'tidyverse/ggplot2@v2.2.1'",
+		"value": ""
+	}
+]
 }
