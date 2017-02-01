@@ -72,6 +72,7 @@ RUN apt-get update && apt-get install -y -t unstable \
     pandoc \
     pandoc-citeproc \
     libcurl4-openssl-dev \
+    libssl-dev \
     libcairo2-dev/unstable \
     libxt-dev \
     libnss-wrapper \
@@ -97,6 +98,12 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 # --------------------------------------------------------
 ENV R_LIBS "${RLIBS}"
 RUN if [ "$R_LIBS" ]; then R -e "install.packages(c($R_LIBS))"; fi
+
+ENV R_GH_LIBS "${RGHLIBS}"
+RUN if [ "$R_GH_LIBS" ]; \
+    then \
+    R -e "install.packages('devtools'); devtools::install_github(c($R_GH_LIBS))"; \
+    fi
 
 # --------------------------------------------------------
 #
@@ -147,6 +154,8 @@ RUN chmod a+x /usr/bin/run-test.sh
 COPY app/*.R /srv/shiny-server/
 COPY app/data /srv/shiny-server/data
 COPY app/www /srv/shiny-server/www
+RUN mkdir /srv/shiny-server/output/ && \
+    chown shiny:shiny /srv/shiny-server/output/
 
 # --------------------------------------------------------
 #
