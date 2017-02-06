@@ -154,9 +154,7 @@ RUN chmod a+x /usr/bin/run-test.sh
 # will invalidate the cache for those steps.
 #
 # --------------------------------------------------------
-COPY app/*.R /srv/shiny-server/
-COPY app/data /srv/shiny-server/data
-COPY app/www /srv/shiny-server/www
+COPY app/ /srv/shiny-server/
 RUN mkdir /srv/shiny-server/output/ && \
     chown shiny:shiny /srv/shiny-server/output/
 

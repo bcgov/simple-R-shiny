@@ -7,8 +7,10 @@ to run locally in development using Docker, and can be productionized using your
 
 ### Where do I put my code?
 
-All of your code goes into the app directory. Data goes into the app/data directory and web resources such as css and images go into app/www directory. If you need to write data to the server, ensure that the data gets written to the `output` folder as shown [here](https://github.com/bcgov/simple-R-shiny/blob/master/app/app.R#L52).
+All of your code goes into the `app` directory. Data goes into the `app/data` directory and web resources such as css and images go into `app/www` directory. If you need to write data to the server, ensure that the data gets written to the `output` folder as shown [here](https://github.com/bcgov/simple-R-shiny/blob/master/app/app.R#L52).
 If you have a README for your project, please also put it here.  Your Shiny code can go into one file (`app.R`) as per the example, or you can split it into seperate `ui.R` and `server.R` files as you wish.
+
+To keep the shiny app as lightweight as possible, don't put anything extra or unnecesary into the `app` directory.
 
 ## Getting Started
 
