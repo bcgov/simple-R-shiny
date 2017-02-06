@@ -35,9 +35,9 @@ The packages.txt file contains an array of strings that indicate the packages yo
 build process runs as fast as possible.  If you are familiar with Docker you know that you can also set environment variables that import this information, however this prevents the build process
 from using the cached layer for this step.  Therefore the packages.txt file is used to build an explicit local Dockerfile that ensures fast repeated builds.
 
-The packages.txt file should look something like this:
+The packages.txt file should look something like this (package names separated by a space, no quotation marks):
 ```
-'package1', 'package2', 'package3'
+package1 package2 package3
 ```
 with all packages on the same line.
 
@@ -57,12 +57,13 @@ lib1 lib2
 
 Many times you will build a Shiny App that requires R Packages (or versions) that are only available from 
 GitHub. These are installed using `devtools::install_github`. List them in the `gh-packages.txt` file, 
-as single-quoted comma separated strings made up of the GitHub user/organization and repository name. 
+as space-separated strings made up of the GitHub user/organization and repository name. 
 It's also recommended to specify a the `SHA` of a specific commit or release tag. 
-The file should look something like this:
+
+The file should look something like this (separated by a space, no quotation marks):
 
 ```
-'ropensci/plotly@a1613b3e225', 'tidyverse/ggplot2@v2.2.1'
+ropensci/plotly@a1613b3e225 tidyverse/ggplot2@v2.2.1
 ```
 
 ### 7. Run / Develop

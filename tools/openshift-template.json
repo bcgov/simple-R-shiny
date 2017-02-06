@@ -47,7 +47,7 @@
 					  {
 					    "name": "SYSLIBS",
 						  "value": "${SYS_LIBRARIES}"
-					  }, 
+					  },
 					  {
 					  	"name":"RGHLIBS",
 					  	  "value": "${R_GH_PACKAGES}"
@@ -328,8 +328,8 @@
 	},{
 		"name": "R_PACKAGES",
 		"displayName": "R Packages",
-		"description": "R Packages that need to be installed from CRAN. Each enclosed in single quotes and seperated by commas, eg: 'datasets', 'ggplot2'"	,
-		"value": "'ggplot2'"
+		"description": "R Packages that need to be installed from CRAN. Separated by spaces, eg: datasets ggplot2"	,
+		"value": "ggplot2"
 	},{
 		"name": "SYS_LIBRARIES",
 		"displayName": "System Libraries",
@@ -338,7 +338,7 @@
 	},{
 		"name": "R_GH_PACKAGES",
 		"displayName": "R GitHub Packages",
-		"description": "R Packages to be installed from GitHub. Single-quoted strings separated by commas: 'gh_user/repo@commit_SHA', 'gh_org/repo@release_tag', the SHA/release tag is optional but recommended. eg: 'ropensci/plotly@a1613b3e225', 'tidyverse/ggplot2@v2.2.1'",
+		"description": "R Packages to be installed from GitHub. Unquoted strings separated by a space: (gh_user/repo@commit_SHA  gh_org/repo@release_tag) , the SHA/release tag is optional but recommended. eg: ropensci/plotly@a1613b3e225 tidyverse/ggplot2@v2.2.1",
 		"value": ""
 	}
 ]
