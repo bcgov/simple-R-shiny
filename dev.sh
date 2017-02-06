@@ -72,52 +72,58 @@ cp system-libraries.txt .system-libraries.txt
 # Build
 #
 # --------------------------------------------------------
-docker build $no_cache -t shinylands -f Dockerfile.local .
+docker build $no_cache -t shiny -f Dockerfile.local .
 
 # --------------------------------------------------------
 #
 # Run
 #
 # --------------------------------------------------------
-
-os=$OSTYPE
-if [[ "$os" == 'msys' ]] || [[ "$os" == 'cygwin' ]] || [[ "$os" == 'win32' ]]
+if [[ $? > 0 ]]
 then
-  echo "Running on Windows"
-  # --------------------------------------------------------
-  #
-  # Run the image - unfortunately won't mount the logs and
-  # bookmarks locally
-  #
-  # --------------------------------------------------------
-  docker run -i -t --rm --name shiny -p 3838:3838 shinylands
-
+  echo "There was an error building the image"
+  exit 1
 else
-  # --------------------------------------------------------
-  #
-  # this runs the image and mounts everything interesting
-  # to your local repo so you can play and see the logs
-  # without having to go into the container (hopefully)
-  #
-  # --------------------------------------------------------
-  docker run --rm --name shiny \
-    -p 3838:3838 \
-    -v `pwd`/_mount/bookmarks:/var/lib/shiny-server \
-    -v `pwd`/_mount/logs:/var/log/shiny-server \
-    -v `pwd`/_mount/output:/srv/shiny-server-output \
-    -v `pwd`/_mount/tmp:/tmp \
-    -v `pwd`/app:/srv/shiny-server \
-    shinylands
+  echo "Running Shiny App..."
+  os=$OSTYPE
+  if [[ "$os" == 'msys' ]] || [[ "$os" == 'cygwin' ]] || [[ "$os" == 'win32' ]]
+  then
+    # --------------------------------------------------------
+    #
+    # Run the image - unfortunately won't mount the logs and
+    # bookmarks locally
+    #
+    # --------------------------------------------------------
+    docker run -i -t --rm --name myshiny -p 3838:3838 shiny
 
-  # docker run --rm --name shiny \
-  #   -p 3838:3838 \
-  #   -v `pwd`/_mount/bookmarks:/var/lib/shiny-server \
-  #   -v `pwd`/_mount/logs:/var/log/shiny-server \
-  #   -v `pwd`/_mount/output:/srv/shiny-server-output \
-  #   -v `pwd`/_mount/tmp:/tmp \
-  #   -v `pwd`/app:/srv/shiny-server \
-  #   -ti --rm myshiny bash
+  else
+    # --------------------------------------------------------
+    #
+    # this runs the image and mounts everything interesting
+    # to your local repo so you can play and see the logs
+    # without having to go into the container (hopefully)
+    #
+    # --------------------------------------------------------
+    docker run --rm --name myshiny \
+      -p 3838:3838 \
+      -v `pwd`/_mount/bookmarks:/var/lib/shiny-server \
+      -v `pwd`/_mount/logs:/var/log/shiny-server \
+      -v `pwd`/_mount/output:/srv/shiny-server-output \
+      -v `pwd`/_mount/tmp:/tmp \
+      -v `pwd`/app:/srv/shiny-server \
+      shiny
 
-  # docker run --rm --name shiny -p 3838:3838 -v `pwd`/_mount/bookmarks:/var/lib/shiny-server -v `pwd`/_mount/logs:/var/log/shiny-server -v `pwd`/_mount/output:/srv/shiny-server-output -v `pwd`/_mount/tmp:/tmp -v `pwd`/app:/srv/shiny-server -ti --rm myshiny bash
+    # docker run --rm --name shiny \
+    #   -p 3838:3838 \
+    #   -v `pwd`/_mount/bookmarks:/var/lib/shiny-server \
+    #   -v `pwd`/_mount/logs:/var/log/shiny-server \
+    #   -v `pwd`/_mount/output:/srv/shiny-server-output \
+    #   -v `pwd`/_mount/tmp:/tmp \
+    #   -v `pwd`/app:/srv/shiny-server \
+    #   -ti --rm myshiny bash
 
+    # docker run --rm --name shiny -p 3838:3838 -v `pwd`/_mount/bookmarks:/var/lib/shiny-server -v `pwd`/_mount/logs:/var/log/shiny-server -v `pwd`/_mount/output:/srv/shiny-server-output -v `pwd`/_mount/tmp:/tmp -v `pwd`/app:/srv/shiny-server -ti --rm myshiny bash
+
+  fi
+  exit 0
 fi
