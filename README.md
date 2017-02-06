@@ -78,8 +78,9 @@ This command will build a local Dockerfile and run it for you.  All of your code
 - **_mount/output**    : In your program, if you write to '/srv/shiny-server-output' it will show up here
 - **_mount/tmp**       : The /tmp directory if you need to debug the temporary files created by shiny
 
-Note: If you are on Windows and using Docker with VirtualBox, it unfortunately 
-won't be able to mount the logs and bookmarks folders locally, but it will build and lanch the app.
+**Note to Windows users:** If you are on Windows and using Docker with VirtualBox, it unfortunately 
+won't be able to mount the logs and bookmarks folders locally (i.e., `_mount` directory won't be created), 
+but it will build and lanch the app.
 
 The first time you run dev.sh you will see a lot of output where docker is building the container image for the first time and installing all the dependancies.
 On each successive run as you modify your code and run dev.sh, you will see that only your new code gets placed into the image and run.  If you add new packages
