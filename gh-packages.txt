@@ -1,1 +1,1 @@
-'ropensci/plotly@a1613b3e225'
+ropensci/plotly@a1613b3e225

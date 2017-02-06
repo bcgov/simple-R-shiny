@@ -97,16 +97,19 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 #
 # --------------------------------------------------------
 ENV R_LIBS "${RLIBS}"
-RUN if [ "$R_LIBS" ]; then R -e "install.packages(c($R_LIBS))"; fi
+RUN if [ "$R_LIBS" ]; \
+   then \
+   install2.r --error $R_LIBS; \
+   fi
 
 # --------------------------------------------------------
 # GitHub R packages
 # --------------------------------------------------------
 ENV R_GH_LIBS "${RGHLIBS}"
 RUN if [ "$R_GH_LIBS" ]; \
-    then \
-    R -e "install.packages('devtools'); devtools::install_github(c($R_GH_LIBS))"; \
-    fi
+   then \
+   install2.r --error devtools; installGithub.r $R_GH_LIBS; \
+   fi
 
 # --------------------------------------------------------
 #
@@ -156,7 +159,7 @@ RUN chmod a+x /usr/bin/run-test.sh
 # --------------------------------------------------------
 COPY app/ /srv/shiny-server/
 RUN mkdir /srv/shiny-server/output/ && \
-    chown shiny:shiny /srv/shiny-server/output/
+    chown -R shiny:shiny /srv/shiny-server
 
 # --------------------------------------------------------
 #
