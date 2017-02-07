@@ -86,3 +86,11 @@ but it will build and lanch the app.
 The first time you run dev.sh you will see a lot of output where docker is building the container image for the first time and installing all the dependancies.
 On each successive run as you modify your code and run dev.sh, you will see that only your new code gets placed into the image and run.  If you add new packages
 *do not forget to update the packages.txt file* or you will see the missing packages errors in your R program logs.
+
+If you want to rebuild the image from scratch, you can run:
+
+```
+./dev.sh --no-cache
+```
+
+and the `docker build` command will run with the `--no-cache` flag. You might also want to first delete `.packages.txt`, `.gh-packages.txt`, `.system-libraries.txt`, and `Dockerfile.local` to ensure everything runs smoothly.
