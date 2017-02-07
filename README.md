@@ -86,3 +86,25 @@ but it will build and lanch the app.
 The first time you run dev.sh you will see a lot of output where docker is building the container image for the first time and installing all the dependancies.
 On each successive run as you modify your code and run dev.sh, you will see that only your new code gets placed into the image and run.  If you add new packages
 *do not forget to update the packages.txt file* or you will see the missing packages errors in your R program logs.
+
+
+## Deploying to OpenShift
+
+You will first need a project set up in OpenShift
+
+1. Open your project in the OpenShift Web Console
+
+2. Click 'Add to Project'
+
+3. Search for "rshiny" in the search box, and click on the "rshiny" template
+
+4. Fill in the fields, replacing the defaults if required.
+    
+    Fields you will definitely need to edit: 
+      - Git Repository URL (the GitHub repository where your dockerized app is hosted)
+      - R Packages (same as `packages.txt`)
+      - System Libraries (same as `system-libraries.txt`)
+      - R GitHub Packages (same as `gh-pacakges.txt`)
+ 
+5. Click Create. Your app should build and deploy.
+ 
