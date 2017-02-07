@@ -122,9 +122,9 @@ You will first need a project set up in OpenShift - you will need an OpenShift a
 
 ### Creating a new app using Command Line Tools
 
-An introduction to the OpenShift command line tools is [here](https://docs.openshift.com/container-platform/3.4/cli_reference/index.html)
+*An introduction to the OpenShift command line tools is [here](https://docs.openshift.com/container-platform/3.4/cli_reference/index.html)*
 
-Switch to your project:
+- First, ensure you are in the project in which you want your app to appear:
 
 ```
 $ oc project shiny-server
