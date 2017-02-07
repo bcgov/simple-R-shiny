@@ -90,7 +90,7 @@ On each successive run as you modify your code and run dev.sh, you will see that
 
 ## Deploying to OpenShift
 
-You will first need a project set up in OpenShift
+You will first need a project set up in OpenShift - you will need an OpenShift administrator to do this for you.
 
 ### Creating a new app from the OpenShift Web Console
 
@@ -113,5 +113,6 @@ You will first need a project set up in OpenShift
 ### Creating a new app using Command Line Tools
 
 ```
-oc new-app --template="rshiny" --param NAME="rshiny-test" --param SOURCE_REPOSITORY_URL="https://github.com/bcgov/simple-R-shiny" --param R_PACKAGES="ggplot2 dplyr" --param R_GH_PACKAGES="ropensci/plotly@a1613b3e225" -n shiny-server
+$ oc project shiny-server
+$ oc new-app --template="rshiny" --param NAME="rshiny-test" --param SOURCE_REPOSITORY_URL="https://github.com/bcgov/simple-R-shiny" --param R_PACKAGES="ggplot2 dplyr" --param R_GH_PACKAGES="ropensci/plotly@a1613b3e225" -n shiny-server
 ```
