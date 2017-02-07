@@ -92,6 +92,8 @@ On each successive run as you modify your code and run dev.sh, you will see that
 
 You will first need a project set up in OpenShift
 
+### Creating a new app from the OpenShift Web Console
+
 1. Open your project in the OpenShift Web Console
 
 2. Click 'Add to Project'
@@ -107,4 +109,9 @@ You will first need a project set up in OpenShift
       - R GitHub Packages (same as `gh-pacakges.txt`)
  
 5. Click Create. Your app should build and deploy.
- 
+
+### Creating a new app using Command Line Tools
+
+```
+oc new-app --template="rshiny" --param NAME="rshiny-test" --param SOURCE_REPOSITORY_URL="https://github.com/bcgov/simple-R-shiny" --param R_PACKAGES="ggplot2 dplyr" --param R_GH_PACKAGES="ropensci/plotly@a1613b3e225" -n shiny-server
+```
