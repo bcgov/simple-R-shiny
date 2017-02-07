@@ -5,3 +5,4 @@ Dockerfile.local
 .Rproj.user
 .Rhistory
 .gh-packages.txt
+README.html
