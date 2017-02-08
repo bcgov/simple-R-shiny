@@ -134,16 +134,22 @@ $ oc project shiny-server
 
 - Specify that you want to use the `rshiny` template with `--template="rshiny"`
 
-- Set parameters with the `--param` argument. You will want to set:
+- Set parameters with the `--param` argument. You can list the parameters that you can override with:
+    ```
+    $ oc process --parameters -n openshift rshiny
+    ```
+
+    You will want to set:
       - `NAME` (what you want to call it)
       - `SOURCE_REPOSITORY_URL` (the GitHub repository where your dockerized app is hosted)
       - `R_PACKAGES` (same as `packages.txt`)
       - `SYS_LIBRARIES` (same as `system-libraries.txt`)
       - `R_GH_PACKAGES` (same as `gh-pacakges.txt`)
 
+
 - Add [labels](https://docs.openshift.com/container-platform/3.4/dev_guide/application_lifecycle/new_app.html#specifying-labels) with the `-l` flag. Set at least one, to be able to uniquely identify all of the components of your app.
 
-- Although you are (probably) already in the project you want the app to appear in, it's a good idea to specify the project's namespace with `-n my-project`
+- Although you are (probably) already in the project in which you want the app to appear, it's a good idea to specify the project's namespace with `-n my-project`
 
 Example:
 
