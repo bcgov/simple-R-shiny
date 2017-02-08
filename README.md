@@ -105,7 +105,7 @@ You will first need a project set up in OpenShift - you will need an OpenShift a
 
 2. Click 'Add to Project'
 
-3. Search for "rshiny" in the search box, and click on the "rshiny" template
+3. Search for "shiny" in the search box, and click on the "shiny-server" template
 
 4. Fill in the parameter fields, replacing the defaults if required.
     
@@ -132,11 +132,11 @@ $ oc project shiny-server
 
 - Create a new app with `oc new-app`. (Generic instructions for creating an app are [here](https://docs.openshift.com/container-platform/3.3/dev_guide/application_lifecycle/new_app.html#dev-guide-new-app))
 
-- Specify that you want to use the `rshiny` template with `--template="rshiny"`
+- Specify that you want to use the `shiny-server` template with `--template="shiny-server"`
 
 - Set parameters with the `--param` argument. You can list the parameters that you can override with:
     ```
-    $ oc process --parameters -n openshift rshiny
+    $ oc process --parameters -n openshift shiny-server
     ```
 
     You will want to set:
@@ -154,7 +154,7 @@ $ oc project shiny-server
 Example:
 
 ```
-$ oc new-app --template="rshiny" --param NAME="rshiny-test" --param SOURCE_REPOSITORY_URL="https://github.com/bcgov/simple-R-shiny" --param R_PACKAGES="ggplot2 dplyr" --param R_GH_PACKAGES="ropensci/plotly@a1613b3e225" -l id=rshiny-test -n shiny-server
+$ oc new-app --template="shiny-server" --param NAME="rshiny-test" --param SOURCE_REPOSITORY_URL="https://github.com/bcgov/simple-R-shiny" --param R_PACKAGES="ggplot2 dplyr" --param R_GH_PACKAGES="ropensci/plotly@a1613b3e225" -l id=rshiny-test -n shiny-server
 ```
 
 This may fail the first time due to a [known issue](https://github.com/openshift/origin/issues/4518). If you start another build it should work:
