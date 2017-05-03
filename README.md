@@ -94,3 +94,81 @@ If you want to rebuild the image from scratch, you can run:
 ```
 
 and the `docker build` command will run with the `--no-cache` flag. You might also want to first delete `.packages.txt`, `.gh-packages.txt`, `.system-libraries.txt`, and `Dockerfile.local` to ensure everything runs smoothly.
+
+## Deploying to OpenShift the first time.
+
+You will first need a project set up in OpenShift - you will need an OpenShift administrator to do this for you.
+
+### Creating a new app from the OpenShift Web Console
+
+1. Open your project in the OpenShift Web Console
+
+2. Click 'Add to Project'
+
+3. Search for "shiny" in the search box, and click on the "shiny-server" template
+
+4. Fill in the parameter fields, replacing the defaults if required.
+    
+    Fields you will definitely need to edit: 
+      - Name (what you want to call it)
+      - Git Repository URL (the GitHub repository where your dockerized app is hosted)
+      - R Packages (same as `packages.txt`)
+      - System Libraries (same as `system-libraries.txt`)
+      - R GitHub Packages (same as `gh-pacakges.txt`)
+
+5. Add some [labels](https://docs.openshift.com/container-platform/3.4/dev_guide/application_lifecycle/new_app.html#specifying-labels), at least one, to be able to uniquely identify all of the components of your app.
+ 
+6. Click Create. Your app should build and deploy.
+
+### Creating a new app using Command Line Tools
+
+*An introduction to the OpenShift command line tools is [here](https://docs.openshift.com/container-platform/3.3/cli_reference/index.html)*
+
+- First, ensure you are in the project in which you want your app to appear:
+
+```
+$ oc project shiny-server
+```
+
+- Create a new app with `oc new-app`. (Generic instructions for creating an app are [here](https://docs.openshift.com/container-platform/3.3/dev_guide/application_lifecycle/new_app.html#dev-guide-new-app))
+
+- Specify that you want to use the `shiny-server` template with `--template="shiny-server"`
+
+- Set parameters with the `--param` argument. You can list the parameters that you can override with:
+    ```
+    $ oc process --parameters -n openshift shiny-server
+    ```
+
+    You will want to set:
+      - `NAME` (what you want to call it)
+      - `SOURCE_REPOSITORY_URL` (the GitHub repository where your dockerized app is hosted)
+      - `R_PACKAGES` (same as `packages.txt`)
+      - `SYS_LIBRARIES` (same as `system-libraries.txt`)
+      - `R_GH_PACKAGES` (same as `gh-pacakges.txt`)
+
+
+- Add [labels](https://docs.openshift.com/container-platform/3.3/dev_guide/application_lifecycle/new_app.html#specifying-labels) with the `-l` flag. Set at least one, to be able to uniquely identify all of the components of your app.
+
+- Although you are (probably) already in the project in which you want the app to appear, it's a good idea to specify the project's namespace with `-n my-project`
+
+Example:
+
+```
+$ oc new-app --template="shiny-server" --param NAME="rshiny-test" --param SOURCE_REPOSITORY_URL="https://github.com/bcgov/simple-R-shiny" --param R_PACKAGES="ggplot2 dplyr" --param R_GH_PACKAGES="ropensci/plotly@a1613b3e225" -l id=rshiny-test -n shiny-server
+```
+
+This may fail the first time due to a [known issue](https://github.com/openshift/origin/issues/4518). If you start another build it should work:
+
+```
+$ oc start-build rshiny-test -n shiny-server
+```
+
+## Updating the app in OpenShift (after it's been created)
+
+If you push modifications of your app to GitHub, updating it in OpenShift is as simple as starting a new build. On the command line it is:
+
+```
+$ oc start-build rshiny-test -n shiny-server
+```
+
+Or click the 'Start Build' button in the OpenShift Web Console 'Builds' section.

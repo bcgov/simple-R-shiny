@@ -46,7 +46,7 @@ ENV R_BASE_VERSION 3.3.2
 RUN apt-get update \
     && apt-get install -t unstable -y --no-install-recommends \
         littler \
-                r-cran-littler \
+        r-cran-littler \
         r-base=${R_BASE_VERSION}* \
         r-base-dev=${R_BASE_VERSION}* \
         r-recommended=${R_BASE_VERSION}* \
@@ -78,6 +78,14 @@ RUN apt-get update && apt-get install -y -t unstable \
     libnss-wrapper \
     gettext $SYS_LIBS
 
+
+# --------------------------------------------------------
+#
+# Install shiny and rmarkdown
+#
+# --------------------------------------------------------
+RUN install2.r --error shiny rmarkdown
+
 # --------------------------------------------------------
 #
 # Download and install shiny server
@@ -87,9 +95,8 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
     VERSION=$(cat version.txt)  && \
     wget --no-verbose "https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/shiny-server-$VERSION-amd64.deb" -O ss-latest.deb && \
     gdebi -n ss-latest.deb && \
-    rm -f version.txt ss-latest.deb && \
-    R -e "install.packages(c('shiny', 'rmarkdown'), repos='https://cran.rstudio.com/')" && \
-    cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
+    rm -f version.txt ss-latest.deb # && \
+    # cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
 
 # --------------------------------------------------------
 #
