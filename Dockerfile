@@ -132,11 +132,10 @@ COPY tools/shiny-server.conf /etc/shiny-server/
 #
 # --------------------------------------------------------
 
-RUN sudo mkdir -p /var/log/shiny-server && \
-   mkdir -p /var/lib/shiny-server/bookmarks && \
-   chown -R shiny:shiny /var/log/shiny-server/ && \
-   chown -R shiny:shiny /var/lib/shiny-server/ && \
-   chmod -R u+rw /var/log/shiny-server/ /var/lib/shiny-server/
+RUN sudo mkdir -p /var/shinylogs/shiny-server && \
+    mkdir -p /var/lib/shiny-server/bookmarks && \
+    chown shiny:shiny /var/shinylogs/shiny-server/ && \
+    chown shiny:shiny /var/lib/shiny-server/bookmarks/
 
 # --------------------------------------------------------
 #
