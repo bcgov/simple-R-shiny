@@ -115,7 +115,8 @@ RUN if [ "$R_LIBS" ]; \
 ENV R_GH_LIBS "${RGHLIBS}"
 RUN if [ "$R_GH_LIBS" ]; \
    then \
-   install2.r --error remotes; installGithub.r $R_GH_LIBS; \
+   install2.r --error remotes && \
+   R -e "remotes::install_github('$R_GH_LIBS')"; \
    fi
 
 # --------------------------------------------------------
@@ -131,10 +132,10 @@ COPY tools/shiny-server.conf /etc/shiny-server/
 #
 # --------------------------------------------------------
 
-RUN sudo mkdir -p /var/shinylogs/shiny-server && \
-    mkdir -p /var/lib/shiny-server/bookmarks && \
-    chown shiny:shiny /var/shinylogs/shiny-server/ && \
-    chown shiny:shiny /var/lib/shiny-server/bookmarks/
+# RUN sudo mkdir -p /var/shinylogs/shiny-server && \
+#     mkdir -p /var/lib/shiny-server/bookmarks && \
+#     chown shiny:shiny /var/shinylogs/shiny-server/ && \
+#     chown shiny:shiny /var/lib/shiny-server/bookmarks/
 
 # --------------------------------------------------------
 #
