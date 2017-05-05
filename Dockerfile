@@ -115,7 +115,7 @@ RUN if [ "$R_LIBS" ]; \
 ENV R_GH_LIBS "${RGHLIBS}"
 RUN if [ "$R_GH_LIBS" ]; \
    then \
-   install2.r --error devtools; installGithub.r $R_GH_LIBS; \
+   install2.r --error remotes; installGithub.r $R_GH_LIBS; \
    fi
 
 # --------------------------------------------------------
