@@ -116,7 +116,7 @@ ENV R_GH_LIBS "${RGHLIBS}"
 RUN if [ "$R_GH_LIBS" ]; \
    then \
    install2.r --error remotes && \
-   R -e "remotes::install_github('$R_GH_LIBS')"; \
+   R -e "lapply(strsplit(Sys.getenv('R_GH_LIBS'), '\\s+')[[1]], remotes::install_github"); \
    fi
 
 # --------------------------------------------------------
