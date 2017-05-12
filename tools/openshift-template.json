@@ -24,7 +24,14 @@
 		},
 		"spec": {
 			"runPolicy": "Serial",
-			"resources": {},
+			"resources": {
+				"limits": {
+					"memory": "2Gi"
+				},
+				"requests": {
+					"memory": "2Gi"
+				}
+			},
 			"postCommit": {},
 			"source": {
 				"type": "Git",
