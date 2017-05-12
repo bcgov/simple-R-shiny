@@ -90,10 +90,27 @@ On each successive run as you modify your code and run dev.sh, you will see that
 If you want to rebuild the image from scratch, you can run:
 
 ```
-./dev.sh --no-cache
+$ ./dev.sh --no-cache
 ```
 
 and the `docker build` command will run with the `--no-cache` flag. You might also want to first delete `.packages.txt`, `.gh-packages.txt`, `.system-libraries.txt`, and `Dockerfile.local` to ensure everything runs smoothly.
+
+#### Troubleshooting
+
+If the Docker image builds properly but the app isn't working as expected, sometimes it is necessary to enter the running Docker container to see what's going on. You will first need to get the id of the running container:
+
+Run the following to get a list of running containers:
+```
+$ docker ps
+```
+
+Copy the `ID` of the container, then run: 
+
+```
+$ docker exec -it [your container id] bash
+```
+
+This will drop you into a bash shell so you can poke around in the container.
 
 ## Deploying to OpenShift the first time.
 
