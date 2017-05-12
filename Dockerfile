@@ -106,6 +106,7 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 ENV R_LIBS "${RLIBS}"
 RUN if [ "$R_LIBS" ]; \
    then \
+   echo "Installing CRAN packages: '$R_LIBS'" && \
    install2.r --error $R_LIBS; \
    fi
 
@@ -115,6 +116,7 @@ RUN if [ "$R_LIBS" ]; \
 ENV R_GH_LIBS "${RGHLIBS}"
 RUN if [ "$R_GH_LIBS" ]; \
    then \
+   echo "Installing GitHub packages: '$R_GH_LIBS'" && \
    install2.r --error remotes && \
    R -e "lapply(strsplit(Sys.getenv('R_GH_LIBS'), '\\\s+')[[1]], remotes::install_github)"; \
    fi
