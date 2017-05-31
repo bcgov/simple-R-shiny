@@ -41,19 +41,22 @@ $ git clone https://github.com/bcgov/my-new-fancy-shinyapp
 ```
 
 3. Next you need to establish a link between your new repo and this repo, so that if anything changes in the **bcgov/simple-R-shiny** repo you can pull those changes in easily. You do this be setting **bcgov/simple-R-shiny** as new remote called `upstream`:
-  i. Make sure you are in the new repo folder:
-    ```sh
-    $ cd my-new-fancy-shinyapp
-    ```
-  ii. List current remotes (probably just 'origin' pointing to `github.com/bcgov/my-new-fancy-shinyapp`)
-    ```sh
-    $ git remote -v
-    ```
-  iii. Add **bcgov/simple-r-shiny** as a remote called `upstream` and verify it has been created properly:
-    ```sh
-    $ git remote add upstream https://github.com/bcgov/simple-r-shiny
-    $ git remote -v
-    ```
+
+    i. Make sure you are in the new repo folder:
+      ```sh
+      $ cd my-new-fancy-shinyapp
+      ```
+
+    ii. List current remotes (probably just 'origin' pointing to `github.com/bcgov/my-new-fancy-shinyapp`)
+      ```sh
+      $ git remote -v
+      ```
+      
+    iii. Add **bcgov/simple-r-shiny** as a remote called `upstream` and verify it has been created properly:
+      ```sh
+      $ git remote add upstream https://github.com/bcgov/simple-r-shiny
+      $ git remote -v
+      ```
 
 4. To get updates in your repo from the *upstream* **bcgov/simple-r-shiny** repo, follow these instructions on [syncing a fork](https://help.github.com/articles/syncing-a-fork/).
 
