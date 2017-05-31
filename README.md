@@ -40,7 +40,7 @@ If you want to fork the repo *within* the **bcgov** organization, you can't use 
 $ git clone https://github.com/bcgov/my-new-fancy-shinyapp
 ```
 
-3. Next you need to establish a link between your new repo and this repo, so that if anything changes in the **bcgov/simple-R-shiny** repo you can pull those changes in easily. You do this be setting **bcgov/simple-R-shiny** as new remote called `upstream`:
+3. Next you need to establish a link between your new repo and this repo, so that if anything changes in the **bcgov/simple-R-shiny** repo you can pull those changes in easily. You do this be setting **bcgov/simple-R-shiny** as new remote called `upstream` (based on instructions [here](https://help.github.com/articles/configuring-a-remote-for-a-fork/)):
 
     i. Make sure you are in the new repo folder:
       ```sh
@@ -51,7 +51,7 @@ $ git clone https://github.com/bcgov/my-new-fancy-shinyapp
       ```sh
       $ git remote -v
       ```
-      
+
     iii. Add **bcgov/simple-r-shiny** as a remote called `upstream` and verify it has been created properly:
       ```sh
       $ git remote add upstream https://github.com/bcgov/simple-r-shiny
