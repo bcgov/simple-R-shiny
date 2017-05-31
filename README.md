@@ -2,8 +2,7 @@
 
 ## Introduction
 
-This repo is intended to be forked and used as a development repo for R applications that use [Shiny](http://shiny.rstudio.com/) as a visualization server.  The code is designed
-to run locally in development using Docker, and can be productionized using your github repo through OpenShift.
+This repo is intended to be forked and used as a development repo for R applications that use [Shiny](http://shiny.rstudio.com/) as a visualization server.  The code is designed to run locally in development using Docker, and can be productionized using your github repo through OpenShift.
 
 ### Where do I put my code?
 
@@ -62,9 +61,7 @@ $ git clone https://github.com/bcgov/my-new-fancy-shinyapp
 
 ### 3. Edit the packages.txt file
 
-The packages.txt file contains an array of strings that indicate the packages you will be using in your R program.  This list is used when building your local Dockerfile so that the
-build process runs as fast as possible.  If you are familiar with Docker you know that you can also set environment variables that import this information, however this prevents the build process
-from using the cached layer for this step.  Therefore the packages.txt file is used to build an explicit local Dockerfile that ensures fast repeated builds.
+The packages.txt file contains an array of strings that indicate the packages you will be using in your R program.  This list is used when building your local Dockerfile so that the build process runs as fast as possible.  If you are familiar with Docker you know that you can also set environment variables that import this information, however this prevents the build process from using the cached layer for this step.  Therefore the packages.txt file is used to build an explicit local Dockerfile that ensures fast repeated builds.
 
 The packages.txt file should look something like this (package names separated by a space, no quotation marks):
 ```
@@ -86,8 +83,7 @@ lib1 lib2
 
 ### 5. GitHub-hosted Packages
 
-Many times you will build a Shiny App that requires R Packages (or versions) that are only available from 
-GitHub. These are installed using `devtools::install_github`. List them in the `gh-packages.txt` file, 
+Many times you will build a Shiny App that requires R Packages (or versions) that are only available from GitHub. These are installed using `devtools::install_github`. List them in the `gh-packages.txt` file, 
 as space-separated strings made up of the GitHub user/organization and repository name. 
 It's also recommended to specify a the `SHA` of a specific commit or release tag. 
 
@@ -100,9 +96,11 @@ ropensci/plotly@a1613b3e225 tidyverse/ggplot2@v2.2.1
 ### 6. Run / Develop
 
 With all your packages listed in the packages.txt file, and your code in the app directory you should be able to run `./dev.sh` at the command line (on Windows use the *Docker Quickstart Terminal*) in the root of your project to initiate Docker.
+
 ```
 $ ./dev.sh
 ```
+
 This command will build a local Dockerfile and run it for you.  All of your code will be added to the container and run.  Especially important is that new directories will appear in the root of your project under the '_mount' directory:
 
 - **_mount/bookmarks** : This is where shiny will write its bookmarks
@@ -110,13 +108,10 @@ This command will build a local Dockerfile and run it for you.  All of your code
 - **_mount/output**    : In your program, if you write to '/srv/shiny-server-output' it will show up here
 - **_mount/tmp**       : The /tmp directory if you need to debug the temporary files created by shiny
 
-**Note to Windows users:** If you are on Windows and using Docker with VirtualBox, it unfortunately 
-won't be able to mount the logs and bookmarks folders locally (i.e., `_mount` directory won't be created), 
-but it will build and lanch the app.
+**Note to Windows users:** If you are on Windows and using Docker with VirtualBox, it unfortunately won't be able to mount the logs and bookmarks folders locally (i.e., `_mount` directory won't be created), but it will build and lanch the app.
 
-The first time you run dev.sh you will see a lot of output where docker is building the container image for the first time and installing all the dependancies.
-On each successive run as you modify your code and run dev.sh, you will see that only your new code gets placed into the image and run.  If you add new packages
-*do not forget to update the packages.txt file* or you will see the missing packages errors in your R program logs.
+The first time you run dev.sh you will see a lot of output where docker is building the container image for the first time and installing all the dependencies.
+On each successive run as you modify your code and run dev.sh, you will see that only your new code gets placed into the image and run.  If you add new packages *do not forget to update the packages.txt file* or you will see the missing packages errors in your R program logs.
 
 If you want to rebuild the image from scratch, you can run:
 
@@ -128,7 +123,7 @@ and the `docker build` command will run with the `--no-cache` flag. You might al
 
 #### Troubleshooting
 
-If the Docker image builds properly but the app isn't working as expected, sometimes it is necessary to enter the running Docker container to see what's going on. You will first need to get the id of the running container:
+1. If the Docker image builds properly but the app isn't working as expected, sometimes it is necessary to enter the running Docker container to see what's going on. You will first need to get the id of the running container:
 
 Run the following to get a list of running containers:
 ```
@@ -142,6 +137,19 @@ $ docker exec -it [your container id] bash
 ```
 
 This will drop you into a bash shell so you can poke around in the container.
+
+2. If you're running this in **Docker Toolbox** for Windows, you may get a cryptic error that looks like this:
+
+```
+Running Shiny App...
+standard_init_linux.go:175: exec user process caused "no such file or directory"
+```
+
+This is likely because `tools/run-server.sh` has Windows line-endings (`\r\n`) instead of Unix line-endings (`\n`). You can use the `dos2unix` command-line tool to fix this:
+
+```sh
+$ dos2unix tools/run-server.sh
+```
 
 ## Deploying to OpenShift the first time.
 
