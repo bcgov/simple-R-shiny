@@ -60,7 +60,7 @@ $ git clone https://github.com/bcgov/my-new-fancy-shinyapp
 
 4. To get updates in your repo from the *upstream* **bcgov/simple-r-shiny** repo, follow these instructions on [syncing a fork](https://help.github.com/articles/syncing-a-fork/).
 
-### 4. Edit the packages.txt file
+### 3. Edit the packages.txt file
 
 The packages.txt file contains an array of strings that indicate the packages you will be using in your R program.  This list is used when building your local Dockerfile so that the
 build process runs as fast as possible.  If you are familiar with Docker you know that you can also set environment variables that import this information, however this prevents the build process
@@ -74,7 +74,7 @@ with all packages on the same line.
 
 Do not include 'shiny' or 'rmarkdown' in packages.txt as they are installed automatically.
 
-### 5. Edit the system-libraries.txt file
+### 4. Edit the system-libraries.txt file
 
 If any of the R packages you need to install require special system libraries (to be installed with `apt-get install`; eg. `libgdal-dev` and `libproj-dev` for the [`rgdal`](https://cran.rstudio.com/web/packages/rgdal/) package, or `libxml2-dev` for the [`xml2`](https://cran.rstudio.com/web/packages/xml2/) package), list them in this file. It works similarly to packages.txt to build an explicit local Dockerfile that ensures fast repeated builds.
 
@@ -84,7 +84,7 @@ The system-libraries.txt should look something like this (libraries separated by
 lib1 lib2
 ```
 
-### 6. GitHub-hosted Packages
+### 5. GitHub-hosted Packages
 
 Many times you will build a Shiny App that requires R Packages (or versions) that are only available from 
 GitHub. These are installed using `devtools::install_github`. List them in the `gh-packages.txt` file, 
@@ -97,7 +97,7 @@ The file should look something like this (separated by a space, no quotation mar
 ropensci/plotly@a1613b3e225 tidyverse/ggplot2@v2.2.1
 ```
 
-### 7. Run / Develop
+### 6. Run / Develop
 
 With all your packages listed in the packages.txt file, and your code in the app directory you should be able to run `./dev.sh` at the command line (on Windows use the *Docker Quickstart Terminal*) in the root of your project to initiate Docker.
 ```
