@@ -20,14 +20,42 @@ There are several steps you must complete in order to begin:
 
 Instructions for installing docker on your local OS are [provided here](https://docs.docker.com/engine/installation/ "Yeah! Install Docker").
 
-### 2. Fork this repo
+### 2. Fork this repo and clone to your machine
 
 This repo is already set up to work with Docker and Openshift, so it is simplest to fork this repo into your own, and thereby take advatage of any future changes to the tools provided.
 Instructions for forking into your own github repo are [provided here](https://help.github.com/articles/fork-a-repo/ "Fork Repo in Github").
 
-### 3. Clone to your machine
+You next need to clone the new repo onto your local machine so that you can start entering your code and developing.  There are many graphical tools available that can help manage this, some of which can be found [here](https://git-scm.com/download/gui/linux "Github GUI").  Or you can simply use the command line, instructions for which can be found [here](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository "git command line").
 
-You now need to clone the new repo onto your local machine so that you can start entering your code and developing.  There are many graphical tools available that can help manage this, some of which can be found [here](https://git-scm.com/download/gui/linux "Github GUI").  Or you can simply use the command line, instructions for which can be found [here](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository "git command line").
+#### Forking within the **bcgov** GitHub organization:
+
+If you want to fork the repo *within* the **bcgov** organization, you can't use GitHub's forking feature, however you can achive the same result with a few simple steps:
+
+1. Go to the [Import Repository](https://github.com/new/import) page on GitHub. In the *'Old Repository URL'* field, put the url of this repository (`https://github.com/bcgov/simple-r-shiny`). Set the *Owner* to **bcgov**, and choose a unique name (say, 'my-new-fancy-shinyapp'). Click **Begin Import** and a new repository will be created at **github.com/bcgov/my-new-fancy-shinyapp** based on **github.com/bcgov/bcgov/simple-R-shiny**:
+
+![](README-files/import-old-repo-shadow.png)
+
+2. Using the command line, clone your new repository to your computer:
+```sh
+$ git clone https://github.com/bcgov/my-new-fancy-shinyapp
+```
+
+3. Next you need to establish a link between your new repo and this repo, so that if anything changes in the **bcgov/simple-R-shiny** repo you can pull those changes in easily. You do this be setting **bcgov/simple-R-shiny** as new remote called `upstream`:
+  i. Make sure you are in the new repo folder:
+    ```sh
+    $ cd my-new-fancy-shinyapp
+    ```
+  ii. List current remotes (probably just 'origin' pointing to `github.com/bcgov/my-new-fancy-shinyapp`)
+    ```sh
+    $ git remote -v
+    ```
+  iii. Add **bcgov/simple-r-shiny** as a remote called `upstream` and verify it has been created properly:
+    ```sh
+    $ git remote add upstream https://github.com/bcgov/simple-r-shiny
+    $ git remote -v
+    ```
+
+4. To get updates in your repo from the *upstream* **bcgov/simple-r-shiny** repo, follow these instructions on [syncing a fork](https://help.github.com/articles/syncing-a-fork/).
 
 ### 4. Edit the packages.txt file
 
