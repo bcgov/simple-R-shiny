@@ -19,6 +19,8 @@ There are several steps you must complete in order to begin:
 
 Instructions for installing docker on your local OS are [provided here](https://docs.docker.com/engine/installation/ "Yeah! Install Docker").
 
+While not directly related to this project, there is a tutorial on using Docker with R [here](http://ropenscilabs.github.io/r-docker-tutorial/), which you may find helpful.
+
 ### 2. Fork this repo and clone to your machine
 
 This repo is already set up to work with Docker and Openshift, so it is simplest to fork this repo into your own, and thereby take advatage of any future changes to the tools provided.
