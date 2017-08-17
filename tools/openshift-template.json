@@ -27,6 +27,9 @@
 			"resources": {
 				"limits": {
 					"memory": "${BUILD_MEMORY}"
+				},
+				"requests": {
+				  "memory": "${BUILD_MEMORY}"
 				}
 			},
 			"postCommit": {},
