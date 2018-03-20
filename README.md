@@ -1,5 +1,8 @@
 # Shiny Server Development Template
 
+***Note: While it likely still works, this repository is now out of date. 
+A project with a newer implementation that can be used as a template can be found [here](https://github.com/bcgov/land-designations-shinyapp)***
+
 ## Introduction
 
 This repo is intended to be forked and used as a development repo for R applications that use [Shiny](http://shiny.rstudio.com/) as a visualization server.  The code is designed to run locally in development using Docker, and can be productionized using your github repo through OpenShift.
